@@ -1,0 +1,45 @@
+{% block hmnet_forms_list %}
+	<sw-page class="hmnet-forms-list">
+		{% block hmnet_forms_list_smart_bar_header %}
+			<template #smart-bar-header>
+				<h2>
+					{% block hmnet_forms_list_smart_bar_header_title %}
+						{{ $tc('hmnet-forms.list.title') }}
+					{% endblock %}
+
+					{% block hmnet_forms_list_smart_bar_header_amount %}
+						<span v-if="!isLoading" class="sw-page__smart-bar-amount">
+							({{ total }})
+						</span>
+					{% endblock %}
+				</h2>
+			</template>
+		{% endblock %}
+
+		{% block hmnet_forms_list_smart_bar_actions %}
+			<template #smart-bar-actions>
+				{% block hmnet_forms_list_smart_bar_actions_add %}
+					<sw-button :routerlink="{ name: 'hmnet.forms.create' }" variant="primary">
+						{{ $tc('hmnet-forms.list.buttonAddForm') }}
+					</sw-button>
+				{% endblock %}
+			</template>
+		{% endblock %}
+
+		{% block hmnet_forms_list_language_switch %}
+			<template #language-switch>
+				<sw-language-switch @on-change="onChangeLanguage" :savechangesfunction="() => Promise.resolve()" :abortchangefunction="() => Promise.resolve()"/>
+			</template>
+		{% endblock %}
+
+		<template #content>
+			{% block hmnet_forms_list_content %}
+				<div class="hmnet-forms-list__content">
+					{% block hmnet_forms_list_empty_state %}
+						<mt-empty-state :title="$tc('hmnet-forms.list.emptyStateTitle')"/>
+					{% endblock %}
+				</div>
+			{% endblock %}
+		</template>
+	</sw-page>
+{% endblock %}

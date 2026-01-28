@@ -1,0 +1,36 @@
+{
+    "hmnet-forms": {
+        "general": {
+            "mainMenuItemGeneral": "Formulare",
+            "descriptionTextModule": "Verwalten Sie Ihre Formulare"
+        },
+        "list": {
+            "title": "Formulare",
+            "buttonAddForm": "Formular hinzufügen",
+            "columnName": "Name",
+            "columnActive": "Aktiv",
+            "columnCreatedAt": "Erstellt am",
+            "emptyStateTitle": "Noch keine Formulare vorhanden"
+        },
+        "detail": {
+            "title": "Formular bearbeiten",
+            "titleCreate": "Neues Formular erstellen",
+            "buttonSave": "Speichern",
+            "buttonCancel": "Abbrechen",
+            "errorTitle": "Fehler beim Speichern",
+            "cardTitleGeneral": "Allgemeine Informationen",
+            "cardTitleSettings": "Einstellungen",
+            "labelName": "Name",
+            "placeholderName": "Geben Sie einen Namen ein...",
+            "labelActive": "Aktiv",
+            "labelDescription": "Beschreibung",
+            "placeholderDescription": "Geben Sie eine Beschreibung ein...",
+            "labelRecipientEmail": "Empfänger E-Mail",
+            "placeholderRecipientEmail": "empfaenger@example.com",
+            "labelEmailSubject": "E-Mail Betreff",
+            "placeholderEmailSubject": "Neue Formular-Anfrage",
+            "labelSuccessMessage": "Erfolgsnachricht",
+            "placeholderSuccessMessage": "Vielen Dank für Ihre Anfrage!"
+        }
+    }
+}

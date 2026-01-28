@@ -1,0 +1,35 @@
+{
+    "name": "hmnet-forms/hmnet-forms",
+    "description": "hmnet-forms/hmnet-forms",
+    "type": "shopware-platform-plugin",
+    "version": "1.0.0",
+    "license": "MIT",
+    "require": {
+        "shopware/core": "~6.7.0"
+    },
+    "extra": {
+        "shopware-plugin-class": "HMnet\\Forms\\HMnetForms",
+        "label": {
+            "de-DE": "HMnet: Forms",
+            "en-GB": "HMnet: Forms"
+        },
+        "description": {
+            "de-DE": "Dieses Plugin ermöglicht das Erstellen und Verwalten von Formularen",
+            "en-GB": "This plugin allows the creation and management of forms"
+        },
+        "manufacturerLink": {
+            "de-DE": "https://hmnet.de/",
+            "en-GB": "https://hmnet.de/"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "HMnet\\Forms\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "HMnet\\Forms\\Tests\\": "tests/"
+        }
+    }
+}

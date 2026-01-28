@@ -1,0 +1,36 @@
+{
+    "hmnet-forms": {
+        "general": {
+            "mainMenuItemGeneral": "Forms",
+            "descriptionTextModule": "Manage your forms"
+        },
+        "list": {
+            "title": "Forms",
+            "buttonAddForm": "Add form",
+            "columnName": "Name",
+            "columnActive": "Active",
+            "columnCreatedAt": "Created at",
+            "emptyStateTitle": "No forms yet"
+        },
+        "detail": {
+            "title": "Edit form",
+            "titleCreate": "Create new form",
+            "buttonSave": "Save",
+            "buttonCancel": "Cancel",
+            "errorTitle": "Error while saving",
+            "cardTitleGeneral": "General information",
+            "cardTitleSettings": "Settings",
+            "labelName": "Name",
+            "placeholderName": "Enter a name...",
+            "labelActive": "Active",
+            "labelDescription": "Description",
+            "placeholderDescription": "Enter a description...",
+            "labelRecipientEmail": "Recipient email",
+            "placeholderRecipientEmail": "recipient@example.com",
+            "labelEmailSubject": "Email subject",
+            "placeholderEmailSubject": "New form submission",
+            "labelSuccessMessage": "Success message",
+            "placeholderSuccessMessage": "Thank you for your submission!"
+        }
+    }
+}

@@ -1,0 +1,77 @@
+{% block hmnet_forms_create %}
+	<sw-page class="hmnet-forms-create">
+		{% block hmnet_forms_create_header %}
+			<template #smart-bar-header>
+				<h2>{{ $tc('hmnet-forms.detail.titleCreate') }}</h2>
+			</template>
+		{% endblock %}
+
+		{% block hmnet_forms_create_actions %}
+			<template #smart-bar-actions>
+				{% block hmnet_forms_create_actions_cancel %}
+					<sw-button v-tooltip="tooltipCancel" @click="onClickCancel">
+						{{ $tc('hmnet-forms.detail.buttonCancel') }}
+					</sw-button>
+				{% endblock %}
+
+				{% block hmnet_forms_create_actions_save %}
+					<sw-button-process class="hmnet-forms-create__save-action" :isloading="isLoading" :processsuccess="processSuccess" variant="primary" @click="onClickSave" v-tooltip="tooltipSave">
+						{{ $tc('hmnet-forms.detail.buttonSave') }}
+					</sw-button-process>
+				{% endblock %}
+			</template>
+		{% endblock %}
+
+		{% block hmnet_forms_create_language_switch %}
+			<template #language-switch>
+				<sw-language-switch :savechangesfunction="() => Promise.resolve()" :abortchangefunction="() => Promise.resolve()" @on-change="createdComponent"/>
+			</template>
+		{% endblock %}
+
+		{% block hmnet_forms_create_content %}
+			<template #content>
+				<sw-card-view>
+					{% block hmnet_forms_create_base_card %}
+						<sw-card :title="$tc('hmnet-forms.detail.cardTitleGeneral')" :isloading="isLoading">
+							{% block hmnet_forms_create_base_card_content %}
+								<sw-container columns="repeat(auto-fit, minmax(250px, 1fr))" gap="0 30px">
+									{% block hmnet_forms_create_base_card_content_name %}
+										<sw-text-field v-model="form.name" :label="$tc('hmnet-forms.detail.labelName')" :placeholder="$tc('hmnet-forms.detail.placeholderName')" required/>
+									{% endblock %}
+
+									{% block hmnet_forms_create_base_card_content_active %}
+										<sw-switch-field v-model="form.active" :label="$tc('hmnet-forms.detail.labelActive')"/>
+									{% endblock %}
+								</sw-container>
+
+								{% block hmnet_forms_create_base_card_content_description %}
+									<sw-textarea-field v-model="form.description" :label="$tc('hmnet-forms.detail.labelDescription')" :placeholder="$tc('hmnet-forms.detail.placeholderDescription')"/>
+								{% endblock %}
+							{% endblock %}
+						</sw-card>
+					{% endblock %}
+
+					{% block hmnet_forms_create_settings_card %}
+						<sw-card :title="$tc('hmnet-forms.detail.cardTitleSettings')" :isloading="isLoading">
+							{% block hmnet_forms_create_settings_card_content %}
+								<sw-container columns="repeat(auto-fit, minmax(250px, 1fr))" gap="0 30px">
+									{% block hmnet_forms_create_settings_card_content_email %}
+										<sw-text-field v-model="form.recipientEmail" :label="$tc('hmnet-forms.detail.labelRecipientEmail')" :placeholder="$tc('hmnet-forms.detail.placeholderRecipientEmail')"/>
+									{% endblock %}
+
+									{% block hmnet_forms_create_settings_card_content_subject %}
+										<sw-text-field v-model="form.emailSubject" :label="$tc('hmnet-forms.detail.labelEmailSubject')" :placeholder="$tc('hmnet-forms.detail.placeholderEmailSubject')"/>
+									{% endblock %}
+								</sw-container>
+
+								{% block hmnet_forms_create_settings_card_content_success_message %}
+									<sw-textarea-field v-model="form.successMessage" :label="$tc('hmnet-forms.detail.labelSuccessMessage')" :placeholder="$tc('hmnet-forms.detail.placeholderSuccessMessage')"/>
+								{% endblock %}
+							{% endblock %}
+						</sw-card>
+					{% endblock %}
+				</sw-card-view>
+			</template>
+		{% endblock %}
+	</sw-page>
+{% endblock %}
