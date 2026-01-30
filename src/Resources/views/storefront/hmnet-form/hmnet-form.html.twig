@@ -1,0 +1,33 @@
+<div class="hmnet-form">
+	<div class="hmnet-form__header">
+		<h3 class="hmnet-form__title">{{ formData.name }}</h3>
+		{% if formData.description %}
+			<p class="hmnet-form__description">{{ formData.description }}</p>
+		{% endif %}
+	</div>
+	<div class="hmnet-form__content">
+		{% for field in formData.fields %}
+			<div class="hmnet-form__field">
+				<label class="hmnet-form__label" for="field-{{ field.id }}">{{ field.title }} {{ field.isRequired ? '*' : '' }}</label>
+				{% if field.type == 'text' %}
+					<input type="text" id="field-{{ field.id }}" name="field-{{ field.id }}" class="hmnet-form__input" {{ field.isRequired ? 'required' : '' }} />
+				{% elseif field.type == 'textarea' %}
+					<textarea id="field-{{ field.id }}" name="field-{{ field.id }}" class="hmnet-form__textarea" {{ field.isRequired ? 'required' : '' }}></textarea>
+				{% elseif field.type == 'phone' %}
+					<input type="tel" id="field-{{ field.id }}" name="field-{{ field.id }}" class="hmnet-form__input" {{ field.isRequired ? 'required' : '' }} />
+				{% elseif field.type == 'email' %}
+					<input type="email" id="field-{{ field.id }}" name="field-{{ field.id }}" class="hmnet-form__input" {{ field.isRequired ? 'required' : '' }} />
+				{% elseif field.type == 'address' %}
+					<input type="text" id="field-{{ field.id }}-street" name="field-{{ field.id }}-street" placeholder="Straße" class="hmnet-form__input" {{ field.isRequired ? 'required' : '' }} />
+					<input type="text" id="field-{{ field.id }}-city" name="field-{{ field.id }}-city" placeholder="Stadt" class="hmnet-form__input" {{ field.isRequired ? 'required' : '' }} />
+					<input type="text" id="field-{{ field.id }}-zip" name="field-{{ field.id }}-zip" placeholder="PLZ" class="hmnet-form__input" {{ field.isRequired ? 'required' : '' }} />
+				{% elseif field.type == 'checkbox' %}
+					<input type="checkbox" id="field-{{ field.id }}" name="field-{{ field.id }}" class="hmnet-form__checkbox" {{ field.isRequired ? 'required' : '' }} />
+				{% endif %}
+			</div>
+		{% endfor %}
+	</div>
+	<div class="hmnet-form__footer">
+		<button type="submit" class="hmnet-form__submit-button">Absenden</button>
+	</div>
+</div>

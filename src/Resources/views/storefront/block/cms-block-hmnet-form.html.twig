@@ -1,7 +1,4 @@
 {% block block_hmnet_form %}
-	<h2>Block data:</h2>
-	{{ dump(block) }}
-
 	{% set element = block.slots.getSlot('content') %}
 
 	{% if element %}

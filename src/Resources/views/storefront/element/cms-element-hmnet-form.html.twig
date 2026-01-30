@@ -1,4 +1,13 @@
 {% block element_hmnet_form %}
-	<h2>Element data:</h2>
-	{{ dump(element) }}
+	{% if element.data %}
+		{% set formData = element.data %}
+
+		{% include '@HMnetForms/storefront/hmnet-form/hmnet-form.html.twig' with { formData: formData } %}
+	{% else %}
+		Formular nicht gefunden
+	{% endif %}
+
+	<pre>
+		{{ dump(element) }}
+	</pre>
 {% endblock %}
