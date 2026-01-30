@@ -19,24 +19,28 @@
 		{% block hmnet_forms_list_smart_bar_actions %}
 			<template #smart-bar-actions>
 				{% block hmnet_forms_list_smart_bar_actions_add %}
-					<sw-button :routerlink="{ name: 'hmnet.forms.create' }" variant="primary">
+					<mt-button @click="$router.push({ name: 'hmnet.forms.create' })" variant="primary" size="default">
 						{{ $tc('hmnet-forms.list.buttonAddForm') }}
-					</sw-button>
+					</mt-button>
 				{% endblock %}
 			</template>
 		{% endblock %}
 
 		{% block hmnet_forms_list_language_switch %}
 			<template #language-switch>
-				<sw-language-switch @on-change="onChangeLanguage" :savechangesfunction="() => Promise.resolve()" :abortchangefunction="() => Promise.resolve()"/>
+				<sw-language-switch @on-change="onChangeLanguage"/>
 			</template>
 		{% endblock %}
 
 		<template #content>
 			{% block hmnet_forms_list_content %}
 				<div class="hmnet-forms-list__content">
+					{% block hmnet_forms_list_grid %}
+						<sw-entity-listing v-if="forms?.length" :items="forms" :columns="columns" :repository="formRepository" :show-selection="false" :detail-route="'hmnet.forms.detail'" :is-loading="isLoading" @page-change="onPageChange"/>
+					{% endblock %}
+
 					{% block hmnet_forms_list_empty_state %}
-						<mt-empty-state :title="$tc('hmnet-forms.list.emptyStateTitle')"/>
+						<mt-empty-state v-else class="mt-empty-state--center" :headline="$t('hmnet-forms.list.emptyStateTitle')" :icon="$route.meta.$module.icon" :description="$t('hmnet-forms.list.emptyStateDescription')"/>
 					{% endblock %}
 				</div>
 			{% endblock %}

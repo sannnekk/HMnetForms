@@ -1,15 +1,23 @@
 import template from './hmnet-forms-list.html.twig'
+import './hmnet-forms-list.scss'
 
 const { Component } = Shopware
+const { Criteria } = Shopware.Data
 
 Component.register('hmnet-forms-list', {
 	template,
 
+	inject: ['repositoryFactory'],
+
 	data() {
 		return {
-			forms: [],
+			forms: null,
 			isLoading: false,
 			total: 0,
+			page: 1,
+			limit: 25,
+			sortBy: 'createdAt',
+			sortDirection: 'DESC',
 		}
 	},
 
@@ -20,22 +28,25 @@ Component.register('hmnet-forms-list', {
 	},
 
 	computed: {
+		formRepository() {
+			return this.repositoryFactory.create('hmnet_form')
+		},
+
 		columns() {
 			return [
 				{
 					property: 'name',
 					dataIndex: 'name',
 					label: this.$tc('hmnet-forms.list.columnName'),
-					routerLink: 'hmnet-forms.detail',
+					routerLink: 'hmnet.forms.detail',
 					allowResize: true,
 					primary: true,
 				},
 				{
-					property: 'active',
-					dataIndex: 'active',
-					label: this.$tc('hmnet-forms.list.columnActive'),
+					property: 'technicalName',
+					dataIndex: 'technicalName',
+					label: this.$tc('hmnet-forms.list.columnTechnicalName'),
 					allowResize: true,
-					align: 'center',
 				},
 				{
 					property: 'createdAt',
@@ -47,9 +58,35 @@ Component.register('hmnet-forms-list', {
 		},
 	},
 
+	created() {
+		this.getList()
+	},
+
 	methods: {
 		onChangeLanguage() {
-			// Will be implemented with backend
+			this.getList()
+		},
+
+		onPageChange({ page, limit }) {
+			this.page = page
+			this.limit = limit
+			this.getList()
+		},
+
+		getList() {
+			this.isLoading = true
+			const criteria = new Criteria(this.page, this.limit)
+			criteria.addSorting(Criteria.sort(this.sortBy, this.sortDirection, false))
+
+			return this.formRepository
+				.search(criteria, Shopware.Context.api)
+				.then((result) => {
+					this.forms = result
+					this.total = result.total
+				})
+				.finally(() => {
+					this.isLoading = false
+				})
 		},
 	},
 })

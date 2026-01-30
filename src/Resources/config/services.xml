@@ -6,5 +6,13 @@
 
     <services>
 
+        <service id="HMnet\Forms\Core\Content\Form\FormEntity">
+            <tag name="shopware.entity"/>
+        </service>
+
+        <service id="HMnet\Forms\Core\Content\FormField\FormFieldEntity">
+            <tag name="shopware.entity"/>
+        </service>
+
     </services>
 </container>

@@ -1,6 +1,5 @@
 import './page/hmnet-forms-list'
 import './page/hmnet-forms-detail'
-import './page/hmnet-forms-create'
 
 Shopware.Module.register('hmnet-forms', {
 	type: 'plugin',
@@ -23,7 +22,7 @@ Shopware.Module.register('hmnet-forms', {
 			},
 		},
 		create: {
-			component: 'hmnet-forms-create',
+			component: 'hmnet-forms-detail',
 			path: 'create',
 			meta: {
 				parentPath: 'hmnet.forms.list',

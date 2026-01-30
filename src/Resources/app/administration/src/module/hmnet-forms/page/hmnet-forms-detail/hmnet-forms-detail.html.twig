@@ -2,20 +2,22 @@
 	<sw-page class="hmnet-forms-detail">
 		{% block hmnet_forms_detail_header %}
 			<template #smart-bar-header>
-				<h2>{{ $tc('hmnet-forms.detail.title') }}</h2>
+				<h2>
+					{{ isCreateMode ? $tc('hmnet-forms.detail.titleCreate') : $tc('hmnet-forms.detail.title') }}
+				</h2>
 			</template>
 		{% endblock %}
 
 		{% block hmnet_forms_detail_actions %}
 			<template #smart-bar-actions>
 				{% block hmnet_forms_detail_actions_cancel %}
-					<sw-button v-tooltip="tooltipCancel" @click="onClickCancel">
+					<mt-button variant="secondary" v-tooltip="tooltipCancel" @click="onClickCancel">
 						{{ $tc('hmnet-forms.detail.buttonCancel') }}
-					</sw-button>
+					</mt-button>
 				{% endblock %}
 
 				{% block hmnet_forms_detail_actions_save %}
-					<sw-button-process class="hmnet-forms-detail__save-action" :isloading="isLoading" :processsuccess="processSuccess" variant="primary" @click="onClickSave" v-tooltip="tooltipSave">
+					<sw-button-process class="hmnet-forms-detail__save-action" :is-loading="isLoading" :process-success="processSuccess" variant="primary" @click="onClickSave" v-tooltip="tooltipSave">
 						{{ $tc('hmnet-forms.detail.buttonSave') }}
 					</sw-button-process>
 				{% endblock %}
@@ -24,55 +26,88 @@
 
 		{% block hmnet_forms_detail_language_switch %}
 			<template #language-switch>
-				<sw-language-switch :savechangesfunction="() => Promise.resolve()" :abortchangefunction="() => Promise.resolve()" @on-change="createdComponent"/>
+				<sw-language-switch :save-changes-function="() => Promise.resolve()" :abort-change-function="() => Promise.resolve()" @on-change="createdComponent"/>
 			</template>
 		{% endblock %}
 
 		{% block hmnet_forms_detail_content %}
 			<template #content>
-				<sw-card-view>
+				<sw-card-view v-if="form">
 					{% block hmnet_forms_detail_content_language_info %}
-						<sw-language-info :entitydescription="form ? form.name : ''"/>
+						<sw-language-info :entity-description="form ? form.name : ''"/>
 					{% endblock %}
 
 					{% block hmnet_forms_detail_base_card %}
-						<sw-card :title="$tc('hmnet-forms.detail.cardTitleGeneral')" :isloading="isLoading">
+						<mt-card :title="$tc('hmnet-forms.detail.cardTitleGeneral')" :is-loading="isLoading">
 							{% block hmnet_forms_detail_base_card_content %}
 								<sw-container columns="repeat(auto-fit, minmax(250px, 1fr))" gap="0 30px">
 									{% block hmnet_forms_detail_base_card_content_name %}
-										<sw-text-field v-model="form.name" :label="$tc('hmnet-forms.detail.labelName')" :placeholder="$tc('hmnet-forms.detail.placeholderName')" required/>
+										<mt-text-field v-model="form.name" :label="$tc('hmnet-forms.detail.labelName')" :placeholder="$tc('hmnet-forms.detail.placeholderName')" required/>
 									{% endblock %}
 
-									{% block hmnet_forms_detail_base_card_content_active %}
-										<sw-switch-field v-model="form.active" :label="$tc('hmnet-forms.detail.labelActive')"/>
+									{% block hmnet_forms_detail_base_card_content_technical_name %}
+										<mt-text-field v-model="form.technicalName" :label="$tc('hmnet-forms.detail.labelTechnicalName')" :placeholder="$tc('hmnet-forms.detail.placeholderTechnicalName')" required/>
 									{% endblock %}
 								</sw-container>
 
 								{% block hmnet_forms_detail_base_card_content_description %}
-									<sw-textarea-field v-model="form.description" :label="$tc('hmnet-forms.detail.labelDescription')" :placeholder="$tc('hmnet-forms.detail.placeholderDescription')"/>
+									<mt-textarea v-model="form.description" :label="$tc('hmnet-forms.detail.labelDescription')" :placeholder="$tc('hmnet-forms.detail.placeholderDescription')"/>
 								{% endblock %}
 							{% endblock %}
-						</sw-card>
+						</mt-card>
 					{% endblock %}
 
 					{% block hmnet_forms_detail_settings_card %}
-						<sw-card :title="$tc('hmnet-forms.detail.cardTitleSettings')" :isloading="isLoading">
+						<mt-card :title="$tc('hmnet-forms.detail.cardTitleSettings')" :is-loading="isLoading">
 							{% block hmnet_forms_detail_settings_card_content %}
-								<sw-container columns="repeat(auto-fit, minmax(250px, 1fr))" gap="0 30px">
-									{% block hmnet_forms_detail_settings_card_content_email %}
-										<sw-text-field v-model="form.recipientEmail" :label="$tc('hmnet-forms.detail.labelRecipientEmail')" :placeholder="$tc('hmnet-forms.detail.placeholderRecipientEmail')"/>
-									{% endblock %}
-
-									{% block hmnet_forms_detail_settings_card_content_subject %}
-										<sw-text-field v-model="form.emailSubject" :label="$tc('hmnet-forms.detail.labelEmailSubject')" :placeholder="$tc('hmnet-forms.detail.placeholderEmailSubject')"/>
-									{% endblock %}
-								</sw-container>
-
-								{% block hmnet_forms_detail_settings_card_content_success_message %}
-									<sw-textarea-field v-model="form.successMessage" :label="$tc('hmnet-forms.detail.labelSuccessMessage')" :placeholder="$tc('hmnet-forms.detail.placeholderSuccessMessage')"/>
-								{% endblock %}
+								<sw-tagged-field v-model:value="form.notificationEmails" :label="$tc('hmnet-forms.detail.labelNotificationEmails')"/>
 							{% endblock %}
-						</sw-card>
+						</mt-card>
+					{% endblock %}
+
+					{% block hmnet_forms_detail_fields_card %}
+						<mt-card :title="$tc('hmnet-forms.detail.cardTitleFields')" :subtitle="$tc('hmnet-forms.detail.cardSubtitleFields')" :is-loading="isLoading">
+
+							<template #headerRight>
+								{% block hmnet_forms_detail_fields_card_actions %}
+									<mt-button variant="primary" size="small" @click="onAddField">
+										{{ $tc('hmnet-forms.detail.buttonAddField') }}
+									</mt-button>
+								{% endblock %}
+							</template>
+
+							{% block hmnet_forms_detail_fields_card_content %}
+
+								<div v-if="!hasFields" class="hmnet-forms-detail__empty-fields">
+									<mt-empty-state class="mt-empty-state--center" :headline="$tc('hmnet-forms.detail.emptyFieldsTitle')" :icon="$route.meta.$module.icon"/>
+								</div>
+
+								<div v-else class="hmnet-forms-detail__fields">
+									<sw-card-section v-for="field in form.fields" :key="field.id">
+										<sw-container columns="repeat(auto-fit, minmax(250px, 1fr))" gap="0 30px">
+											<mt-text-field v-model="field.title" :label="$tc('hmnet-forms.detail.labelFieldTitle')" required/>
+											<mt-select v-model="field.type" :label="$tc('hmnet-forms.detail.labelFieldType')" :options="fieldTypeOptions"/>
+											<mt-switch v-model="field.isRequired" :label="$tc('hmnet-forms.detail.labelFieldRequired')"/>
+										</sw-container>
+
+										<mt-textarea v-model="field.description" :label="$tc('hmnet-forms.detail.labelFieldDescription')"/>
+										<mt-textarea v-model="field.warning" :label="$tc('hmnet-forms.detail.labelFieldWarning')"/>
+
+										<mt-button variant="critical" size="small" @click="onRemoveField(field.id)">
+											{{ $tc('hmnet-forms.detail.buttonRemoveField') }}
+										</mt-button>
+									</sw-card-section>
+								</div>
+							{% endblock %}
+						</mt-card>
+					{% endblock %}
+
+					{% block hmnet_forms_detail_privacy_card %}
+						<mt-card :title="$tc('hmnet-forms.detail.cardTitlePrivacy')" :subtitle="$tc('hmnet-forms.detail.cardSubtitlePrivacy')" :is-loading="isLoading">
+							{% block hmnet_forms_detail_privacy_card_content %}
+								<mt-text-editor v-model="form.privacyAgreement" :label="$tc('hmnet-forms.detail.labelPrivacyAgreement')"/>
+							{% endblock %}
+						</mt-card>
 					{% endblock %}
 				</sw-card-view>
 			</template>
