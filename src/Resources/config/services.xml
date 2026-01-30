@@ -14,5 +14,9 @@
             <tag name="shopware.entity"/>
         </service>
 
+        <service id="HMnet\Forms\Content\Cms\HMnetFormCmsElementResolver">
+            <tag name="shopware.cms.data_resolver" />
+        </service>
+
     </services>
 </container>
