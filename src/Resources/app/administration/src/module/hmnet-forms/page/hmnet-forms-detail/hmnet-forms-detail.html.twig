@@ -26,7 +26,7 @@
 
 		{% block hmnet_forms_detail_language_switch %}
 			<template #language-switch>
-				<sw-language-switch :save-changes-function="() => Promise.resolve()" :abort-change-function="() => Promise.resolve()" @on-change="createdComponent"/>
+				<sw-language-switch :save-changes-function="saveOnLanguageChange" :abort-change-function="abortOnLanguageChange" @on-change="onChangeLanguage"/>
 			</template>
 		{% endblock %}
 

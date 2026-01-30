@@ -30,6 +30,10 @@ Component.register('hmnet-forms-detail', {
 			return this.repositoryFactory.create('hmnet_form')
 		},
 
+		languageRepository() {
+			return this.repositoryFactory.create('language')
+		},
+
 		formFieldRepository() {
 			return this.repositoryFactory.create('hmnet_form_field')
 		},
@@ -48,6 +52,14 @@ Component.register('hmnet-forms-detail', {
 
 		hasFields() {
 			return !!this.form?.fields?.length
+		},
+
+		currentLanguageId() {
+			if (Shopware.Store && Shopware.Store.get('context')) {
+				return Shopware.Store.get('context').api.languageId
+			}
+
+			return Shopware.Context.api.languageId
 		},
 
 		fieldTypeOptions() {
@@ -100,6 +112,14 @@ Component.register('hmnet-forms-detail', {
 		formId() {
 			this.createdComponent()
 		},
+
+		currentLanguageId() {
+			if (!this.formId) {
+				return
+			}
+
+			this.createdComponent()
+		},
 	},
 
 	created() {
@@ -107,6 +127,39 @@ Component.register('hmnet-forms-detail', {
 	},
 
 	methods: {
+		abortOnLanguageChange() {
+			if (!this.form) {
+				return false
+			}
+
+			return this.formRepository.hasChanges(this.form)
+		},
+
+		saveOnLanguageChange() {
+			return this.onClickSave()
+		},
+
+		onChangeLanguage(languageId) {
+			if (Shopware.Store && Shopware.Store.get('context')) {
+				Shopware.Store.get('context').setApiLanguageId(languageId)
+			}
+
+			this.loadLanguage(languageId)
+			this.createdComponent()
+		},
+
+		async loadLanguage(newLanguageId) {
+			if (!this.languageRepository) {
+				return
+			}
+
+			Shopware.Store.get('context').api.language =
+				await this.languageRepository.get(newLanguageId, {
+					...Shopware.Context.api,
+					inheritance: true,
+				})
+		},
+
 		createdComponent() {
 			if (this.isCreateMode) {
 				this.form = this.createEmptyForm()
@@ -176,14 +229,14 @@ Component.register('hmnet-forms-detail', {
 
 		onClickSave() {
 			if (!this.form) {
-				return
+				return Promise.resolve()
 			}
 
 			this.isLoading = true
 			this.processSuccess = false
 			this.form.notificationEmails = this.form.notificationEmails || []
 
-			this.formRepository
+			return this.formRepository
 				.save(this.form, Shopware.Context.api)
 				.then(() => {
 					if (this.form?.fields?.length) {
