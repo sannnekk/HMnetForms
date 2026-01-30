@@ -10,6 +10,7 @@
             "columnName": "Name",
             "columnTechnicalName": "Technical name",
             "columnCreatedAt": "Created at",
+            "columnUpdatedAt": "Updated at",
             "emptyStateTitle": "No forms yet",
             "emptyStateDescription": "Create your first form now.",
             "emptyStateButton": "Create form"

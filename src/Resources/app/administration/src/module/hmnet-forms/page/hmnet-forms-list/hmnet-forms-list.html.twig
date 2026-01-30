@@ -36,7 +36,16 @@
 			{% block hmnet_forms_list_content %}
 				<div class="hmnet-forms-list__content">
 					{% block hmnet_forms_list_grid %}
-						<sw-entity-listing v-if="forms?.length" :items="forms" :columns="columns" :repository="formRepository" :show-selection="false" :detail-route="'hmnet.forms.detail'" :is-loading="isLoading" @page-change="onPageChange"/>
+						<sw-entity-listing v-if="forms?.length" :items="forms" :columns="columns" :repository="formRepository" :show-selection="false" :detail-route="'hmnet.forms.detail'" :is-loading="isLoading" @page-change="onPageChange">
+
+							<template #column-createdat="{ item }">
+								<sw-time-ago :date="item.createdAt"/>
+							</template>
+
+							<template #column-updatedat="{ item }">
+								<sw-time-ago v-if="item.updatedAt" :date="item.updatedAt"/>
+							</template>
+						</sw-entity-listing>
 					{% endblock %}
 
 					{% block hmnet_forms_list_empty_state %}

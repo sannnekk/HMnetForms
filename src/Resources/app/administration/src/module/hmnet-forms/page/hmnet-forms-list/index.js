@@ -54,6 +54,12 @@ Component.register('hmnet-forms-list', {
 					label: this.$tc('hmnet-forms.list.columnCreatedAt'),
 					allowResize: true,
 				},
+				{
+					property: 'updatedAt',
+					dataIndex: 'updatedAt',
+					label: this.$tc('hmnet-forms.list.columnUpdatedAt'),
+					allowResize: true,
+				},
 			]
 		},
 	},
