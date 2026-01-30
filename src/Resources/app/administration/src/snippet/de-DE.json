@@ -1,5 +1,33 @@
 {
     "hmnet-forms": {
+        "blocks": {
+            "form": {
+                "label": "Formular"
+            }
+        },
+        "elements": {
+            "form": {
+                "label": "Formular"
+            }
+        },
+        "cms": {
+            "preview": {
+                "title": "HMnet Formular",
+                "representation": "Darstellung",
+                "representationButton": "Button mit Modal",
+                "representationEmbed": "Einbetten",
+                "formId": "Formular-ID",
+                "noFormSelected": "Kein Formular ausgewählt"
+            },
+            "component": {
+                "placeholderTitle": "HMnet Formular Platzhalter"
+            },
+            "config": {
+                "representation": "Darstellung",
+                "form": "Formular",
+                "formPlaceholder": "Formular auswählen"
+            }
+        },
         "general": {
             "mainMenuItemGeneral": "Formulare",
             "descriptionTextModule": "Verwalten Sie Ihre Formulare"
@@ -51,6 +79,17 @@
             "fieldTypeEmail": "E-Mail",
             "fieldTypeAddress": "Adresse",
             "fieldTypeCheckbox": "Checkbox"
+        }
+    },
+    "apps": {
+        "sw-cms": {
+            "detail": {
+                "label": {
+                    "blockCategory": {
+                        "hmnet-forms-blocks": "HMnet Formulare"
+                    }
+                }
+            }
         }
     }
 }

@@ -1,0 +1,28 @@
+<div class="sw-cms-el-preview-hmnet-form">
+	<div style="padding: 16px; border: 1px dashed #d1d9e0;">
+		<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+			<strong>{{ $tc('hmnet-forms.cms.preview.title') }}</strong>
+			<span style="font-size: 12px; color: #6b7280;">
+				{{ $tc('hmnet-forms.cms.preview.representation') }}:
+				{{ element.config.representation.value === 'embed' ? $tc('hmnet-forms.cms.preview.representationEmbed') : $tc('hmnet-forms.cms.preview.representationButton') }}
+			</span>
+		</div>
+
+		<div v-if="element.config.representation.value === 'embed'" style="display: grid; gap: 8px;">
+			<div style="height: 12px; background: #eef2f7; border-radius: 4px;"></div>
+			<div style="height: 12px; background: #eef2f7; border-radius: 4px; width: 80%;"></div>
+			<div style="height: 12px; background: #eef2f7; border-radius: 4px; width: 60%;"></div>
+			<div style="height: 28px; background: #e5e7eb; border-radius: 6px; width: 140px;"></div>
+		</div>
+		<div v-else style="display: flex; align-items: center; gap: 8px;">
+			<div style="height: 12px; background: #eef2f7; border-radius: 4px; width: 60%;"></div>
+			<div style="height: 30px; background: #e5e7eb; border-radius: 6px; width: 140px;"></div>
+		</div>
+
+		<div style="margin-top: 12px; font-size: 12px; color: #6b7280;">
+			<span v-if="formName">{{ $tc('hmnet-forms.cms.config.form') }}:
+				{{ formName }}</span>
+			<span v-else>{{ $tc('hmnet-forms.cms.preview.noFormSelected') }}</span>
+		</div>
+	</div>
+</div>

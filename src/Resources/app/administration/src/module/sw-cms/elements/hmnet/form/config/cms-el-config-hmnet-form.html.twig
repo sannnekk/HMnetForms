@@ -1,0 +1,7 @@
+<div>
+	<sw-single-select :label="$tc('hmnet-forms.cms.config.representation')" :options="[
+					{ value: 'button', label: $tc('hmnet-forms.cms.preview.representationButton') },
+					{ value: 'embed', label: $tc('hmnet-forms.cms.preview.representationEmbed') }
+				]" :value="element.config.representation.value" @update:value="element.config.representation.value = $event"/>
+	<sw-entity-single-select entity="hmnet_form" :label="$tc('hmnet-forms.cms.config.form')" :value="element.config.formId.value" @update:value="element.config.formId.value = $event" :placeholder="$tc('hmnet-forms.cms.config.formPlaceholder')"/>
+</div>

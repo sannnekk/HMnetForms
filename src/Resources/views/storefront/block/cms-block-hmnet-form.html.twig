@@ -1,0 +1,12 @@
+{% block block_hmnet_form %}
+	<h2>Block data:</h2>
+	{{ dump(block) }}
+
+	{% set element = block.slots.getSlot('content') %}
+
+	{% if element %}
+		{% sw_include '@Storefront/storefront/element/cms-element-' ~ element.type ~ '.html.twig' with {
+			element: element
+		} %}
+	{% endif %}
+{% endblock %}

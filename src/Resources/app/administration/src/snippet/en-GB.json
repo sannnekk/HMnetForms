@@ -1,5 +1,33 @@
 {
     "hmnet-forms": {
+        "blocks": {
+            "form": {
+                "label": "Form"
+            }
+        },
+        "elements": {
+            "form": {
+                "label": "Form"
+            }
+        },
+        "cms": {
+            "preview": {
+                "title": "HMnet Form",
+                "representation": "Representation",
+                "representationButton": "Button with Modal",
+                "representationEmbed": "Embed",
+                "formId": "Form ID",
+                "noFormSelected": "No form selected"
+            },
+            "component": {
+                "placeholderTitle": "HMnet Form Placeholder"
+            },
+            "config": {
+                "representation": "Representation",
+                "form": "Form",
+                "formPlaceholder": "Select a form"
+            }
+        },
         "general": {
             "mainMenuItemGeneral": "Forms",
             "descriptionTextModule": "Manage your forms"
@@ -51,6 +79,17 @@
             "fieldTypeEmail": "Email",
             "fieldTypeAddress": "Address",
             "fieldTypeCheckbox": "Checkbox"
+        }
+    },
+    "apps": {
+        "sw-cms": {
+            "detail": {
+                "label": {
+                    "blockCategory": {
+                        "hmnet-forms-blocks": "HMnet Forms"
+                    }
+                }
+            }
         }
     }
 }

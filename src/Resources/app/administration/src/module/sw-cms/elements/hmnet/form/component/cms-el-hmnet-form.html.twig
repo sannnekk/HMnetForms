@@ -1,0 +1,13 @@
+<div
+	class="sw-cms-el-hmnet-form">
+	<!-- Form rendering will be implemented here -->
+	<div style="padding: 20px; border: 1px solid #eee; text-align: center; color: #888;">
+		<strong>{{ $tc('hmnet-forms.cms.component.placeholderTitle') }}</strong><br>
+		<span>{{ $tc('hmnet-forms.cms.preview.representation') }}:
+			{{ element.config.representation.value === 'embed' ? $tc('hmnet-forms.cms.preview.representationEmbed') : $tc('hmnet-forms.cms.preview.representationButton') }}
+		</span><br>
+		<span v-if="element.config.formId.value">{{ $tc('hmnet-forms.cms.preview.formId') }}:
+			{{ element.config.formId.value }}</span>
+		<span v-else>{{ $tc('hmnet-forms.cms.preview.noFormSelected') }}</span>
+	</div>
+</div>
