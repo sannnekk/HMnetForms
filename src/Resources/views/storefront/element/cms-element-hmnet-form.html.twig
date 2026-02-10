@@ -1,8 +1,55 @@
 {% block element_hmnet_form %}
 	{% if element.data %}
 		{% set formData = element.data %}
+		{% set representation = element.config.representation.value|default('embed') %}
+		{% set modalId = 'hmnetFormModal-' ~ element.id %}
 
-		{% include '@HMnetForms/storefront/hmnet-form/hmnet-form.html.twig' with { formData: formData } %}
+		{% if representation == 'button' %}
+			{# Button mode: show a trigger button that opens the form in a modal #}
+			<div class="hmnet-form-trigger text-center">
+				<button type="button"
+						class="btn btn-primary btn-lg"
+						data-bs-toggle="modal"
+						data-bs-target="#{{ modalId }}">
+					{{ formData.name }}
+				</button>
+			</div>
+
+			{# Modal containing the form #}
+			<div class="modal fade hmnet-form-modal"
+				 id="{{ modalId }}"
+				 tabindex="-1"
+				 role="dialog"
+				 aria-modal="true"
+				 aria-hidden="true"
+				 aria-labelledby="{{ modalId }}-title">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<div class="modal-title h5" id="{{ modalId }}-title">
+								{{ formData.name }}
+							</div>
+							<button type="button"
+									class="btn-close"
+									data-bs-dismiss="modal"
+									aria-label="Schließen"></button>
+						</div>
+						<div class="modal-body">
+							{% include '@HMnetForms/storefront/hmnet-form/hmnet-form.html.twig' with {
+								formData: formData,
+								isModal: true
+							} %}
+						</div>
+					</div>
+				</div>
+			</div>
+		{% else %}
+			{# Embed mode: render the form inline #}
+			{% include '@HMnetForms/storefront/hmnet-form/hmnet-form.html.twig' with {
+				formData: formData,
+				isModal: false
+			} %}
+		{% endif %}
 	{% else %}
 		<div class="alert alert-warning">
 			Formular nicht gefunden

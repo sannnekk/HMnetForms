@@ -64,3 +64,28 @@
         }
     }
 }
+
+// Modal representation
+.hmnet-form-trigger {
+    padding: 1rem 0;
+}
+
+.hmnet-form-modal {
+    .modal-header {
+        border-bottom: 1px solid $border-color;
+    }
+
+    .modal-body {
+        padding: 1.5rem;
+
+        .hmnet-form {
+            .form-content {
+                padding: 0;
+            }
+        }
+    }
+
+    .modal-title {
+        font-weight: 700;
+    }
+}

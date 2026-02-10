@@ -1,4 +1,6 @@
+{% set isModal = isModal|default(false) %}
 <div class="hmnet-form cms-element-form">
+	{% if not isModal %}
 	<div class="card">
 		<div class="card-body">
 			<div class="card-title mb-4">
@@ -7,6 +9,11 @@
 					<p class="form-text">{{ formData.description }}</p>
 				{% endif %}
 			</div>
+	{% else %}
+		{% if formData.description %}
+			<p class="form-text mb-3">{{ formData.description }}</p>
+		{% endif %}
+	{% endif %}
 
 			<div class="form-content">
 				{% for field in formData.fields %}
@@ -120,6 +127,8 @@
 					</button>
 				</div>
 			</div>
+	{% if not isModal %}
 		</div>
 	</div>
+	{% endif %}
 </div>
