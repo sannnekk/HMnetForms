@@ -67,6 +67,7 @@
             "buttonRemoveField": "Remove field",
             "emptyFieldsTitle": "No fields yet",
             "emptyFieldsDescription": "Add a field now.",
+            "fieldUntitled": "Untitled field",
             "labelFieldTitle": "Title",
             "labelFieldType": "Type",
             "labelFieldRequired": "Required",

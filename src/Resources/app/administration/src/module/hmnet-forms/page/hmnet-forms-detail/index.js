@@ -1,4 +1,5 @@
 import template from './hmnet-forms-detail.html.twig'
+import './hmnet-forms-detail.scss'
 
 const { Component, Mixin } = Shopware
 const { Criteria, EntityCollection } = Shopware.Data

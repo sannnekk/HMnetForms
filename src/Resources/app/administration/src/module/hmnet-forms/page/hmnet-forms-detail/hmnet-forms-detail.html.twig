@@ -83,20 +83,27 @@
 								</div>
 
 								<div v-else class="hmnet-forms-detail__fields">
-									<sw-card-section v-for="field in form.fields" :key="field.id">
-										<sw-container columns="repeat(auto-fit, minmax(250px, 1fr))" gap="0 30px">
-											<mt-text-field v-model="field.title" :label="$tc('hmnet-forms.detail.labelFieldTitle')" required/>
-											<mt-select v-model="field.type" :label="$tc('hmnet-forms.detail.labelFieldType')" :options="fieldTypeOptions"/>
+									<div v-for="(field, index) in form.fields" :key="field.id" class="hmnet-forms-detail__field-card">
+										<div class="hmnet-forms-detail__field-card-header">
+											<span class="hmnet-forms-detail__field-card-number">{{ index + 1 }}</span>
+											<span class="hmnet-forms-detail__field-card-title">{{ field.title || $tc('hmnet-forms.detail.fieldUntitled') }}</span>
+											<span class="hmnet-forms-detail__field-card-badge" v-if="field.type">{{ field.type }}</span>
+											<mt-button class="hmnet-forms-detail__field-card-remove" variant="critical" size="small" @click="onRemoveField(field.id)">
+												{{ $tc('hmnet-forms.detail.buttonRemoveField') }}
+											</mt-button>
+										</div>
+										<div class="hmnet-forms-detail__field-card-body">
+											<sw-container columns="1fr 1fr" gap="0 30px">
+												<mt-text-field v-model="field.title" :label="$tc('hmnet-forms.detail.labelFieldTitle')" required/>
+												<mt-select v-model="field.type" :label="$tc('hmnet-forms.detail.labelFieldType')" :options="fieldTypeOptions"/>
+											</sw-container>
+											<sw-container columns="1fr 1fr" gap="0 30px">
+												<mt-textarea v-model="field.description" :label="$tc('hmnet-forms.detail.labelFieldDescription')"/>
+												<mt-textarea v-model="field.warning" :label="$tc('hmnet-forms.detail.labelFieldWarning')"/>
+											</sw-container>
 											<mt-switch v-model="field.isRequired" :label="$tc('hmnet-forms.detail.labelFieldRequired')"/>
-										</sw-container>
-
-										<mt-textarea v-model="field.description" :label="$tc('hmnet-forms.detail.labelFieldDescription')"/>
-										<mt-textarea v-model="field.warning" :label="$tc('hmnet-forms.detail.labelFieldWarning')"/>
-
-										<mt-button variant="critical" size="small" @click="onRemoveField(field.id)">
-											{{ $tc('hmnet-forms.detail.buttonRemoveField') }}
-										</mt-button>
-									</sw-card-section>
+										</div>
+									</div>
 								</div>
 							{% endblock %}
 						</mt-card>

@@ -67,6 +67,7 @@
             "buttonRemoveField": "Feld entfernen",
             "emptyFieldsTitle": "Noch keine Felder vorhanden",
             "emptyFieldsDescription": "Fügen Sie jetzt Ihr erstes Feld hinzu.",
+            "fieldUntitled": "Unbenanntes Feld",
             "labelFieldTitle": "Titel",
             "labelFieldType": "Typ",
             "labelFieldRequired": "Pflichtfeld",
