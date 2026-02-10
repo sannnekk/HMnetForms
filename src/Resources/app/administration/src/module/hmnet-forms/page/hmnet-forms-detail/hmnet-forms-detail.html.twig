@@ -30,40 +30,36 @@
 			</template>
 		{% endblock %}
 
+		{% block hmnet_forms_detail_tabs_header %}
+			<template #side-content>
+				<div class="hmnet-forms-detail__tabs-header">
+					<mt-tabs
+						v-if="!isCreateMode"
+						class="hmnet-forms-detail__tabs"
+						position-identifier="hmnet-forms-detail"
+						:default-item="activeTab"
+						:small="false"
+						:vertical="true"
+						:items="[
+							{
+								name: 'form',
+								label: $tc('hmnet-forms.detail.tabForm'),
+								onClick: () => activeTab = 'form'
+							},
+							{
+								name: 'submissions',
+								label: $tc('hmnet-forms.detail.tabSubmissions') + ' (' + submissionTotal + ')',
+								onClick: () => activeTab = 'submissions'
+							}
+						]"
+					/>
+				</div>
+			</template>
+		{% endblock %}
+
 		{% block hmnet_forms_detail_content %}
 			<template #content>
 				<div v-if="form" class="hmnet-forms-detail__content">
-
-					{% block hmnet_forms_detail_tabs %}
-						<sw-tabs
-							v-if="!isCreateMode"
-							class="hmnet-forms-detail__tabs"
-							position-identifier="hmnet-forms-detail"
-							:default-item="activeTab"
-							:small="false"
-						>
-							<template #default="{ active }">
-								<sw-tabs-item
-									name="form"
-									:active-tab="active"
-									@click="onTabChange('form')"
-								>
-									{{ $tc('hmnet-forms.detail.tabForm') }}
-								</sw-tabs-item>
-								<sw-tabs-item
-									name="submissions"
-									:active-tab="active"
-									@click="onTabChange('submissions')"
-								>
-									{{ $tc('hmnet-forms.detail.tabSubmissions') }}
-									<sw-label size="small" appearance="pill" variant="neutral" class="hmnet-forms-detail__tab-badge">
-										{{ submissionTotal }}
-									</sw-label>
-								</sw-tabs-item>
-							</template>
-						</sw-tabs>
-					{% endblock %}
-
 					{% block hmnet_forms_detail_tab_form %}
 						<sw-card-view v-if="activeTab === 'form'">
 							{% block hmnet_forms_detail_content_language_info %}
@@ -157,11 +153,11 @@
 							<mt-card :title="$tc('hmnet-forms.detail.cardTitleSubmissions')" :is-loading="submissionsLoading">
 								<template #headerRight>
 									{% block hmnet_forms_detail_submissions_search %}
-										<sw-simple-search-field
-											v-model="submissionSearchTerm"
-											variant="form"
+										<mt-text-field
+											:model-value="submissionSearchTerm"
+											:placeholder="$tc('hmnet-forms.detail.searchPlaceholder')"
 											size="small"
-											@search-term-change="onSubmissionSearch"
+											@update:model-value="onSubmissionSearch"
 										/>
 									{% endblock %}
 								</template>

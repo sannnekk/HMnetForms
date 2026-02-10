@@ -162,6 +162,12 @@ Component.register('hmnet-forms-detail', {
 
 			this.createdComponent()
 		},
+
+		activeTab(newTab) {
+			if (newTab === 'submissions' && !this.isCreateMode) {
+				this.loadSubmissions()
+			}
+		},
 	},
 
 	created() {

@@ -88,6 +88,7 @@
             "columnData": "Data",
             "viewSubmission": "View",
             "deleteSubmission": "Delete",
+            "searchPlaceholder": "Search submissions...",
             "noSubmissions": "No submissions yet",
             "noSubmissionsMatchSearch": "No submissions match your search",
             "submissionDetailTitle": "Submission details",
