@@ -72,4 +72,167 @@
     .hmnet-forms-detail__field-card-body {
         padding: 20px;
     }
+
+    .hmnet-forms-detail__content {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .hmnet-forms-detail__tabs {
+        flex-shrink: 0;
+        padding: 0 24px;
+        border-bottom: 1px solid #d1d9e0;
+        background: #fff;
+    }
+
+    .hmnet-forms-detail__tab-badge {
+        margin-left: 6px;
+    }
+
+    .hmnet-forms-detail__submissions {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .hmnet-forms-detail__submissions-table {
+        overflow-x: auto;
+    }
+
+    .hmnet-forms-detail__table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+    }
+
+    .hmnet-forms-detail__table-th {
+        text-align: left;
+        padding: 10px 12px;
+        font-weight: 600;
+        font-size: 12px;
+        color: #6c7a87;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        border-bottom: 2px solid #d1d9e0;
+        white-space: nowrap;
+    }
+
+    .hmnet-forms-detail__table-th--actions {
+        text-align: right;
+        width: 1%;
+    }
+
+    .hmnet-forms-detail__table-row {
+        border-bottom: 1px solid #e9ecef;
+        transition: background 0.1s ease;
+
+        &:hover {
+            background: #f8f9fa;
+        }
+
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+
+    .hmnet-forms-detail__table-td {
+        padding: 10px 12px;
+        vertical-align: middle;
+    }
+
+    .hmnet-forms-detail__table-td--index {
+        width: 50px;
+        color: #6c7a87;
+        font-weight: 600;
+    }
+
+    .hmnet-forms-detail__table-td--date {
+        white-space: nowrap;
+        width: 160px;
+    }
+
+    .hmnet-forms-detail__table-td--data {
+        max-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .hmnet-forms-detail__table-td--actions {
+        white-space: nowrap;
+        text-align: right;
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+    }
+
+    .hmnet-forms-detail__data-preview {
+        color: #52667a;
+    }
+
+    .hmnet-forms-detail__submissions-pagination {
+        display: flex;
+        justify-content: center;
+        padding-top: 8px;
+    }
+
+    .hmnet-forms-detail__empty-submissions {
+        padding: 40px 0;
+    }
+
+    .hmnet-forms-detail__submission-detail {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .hmnet-forms-detail__submission-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 16px;
+        background: #f0f2f5;
+        border-radius: 6px;
+        font-size: 14px;
+    }
+
+    .hmnet-forms-detail__submission-meta-label {
+        font-weight: 600;
+        color: #6c7a87;
+    }
+
+    .hmnet-forms-detail__submission-fields {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .hmnet-forms-detail__submission-field {
+        padding: 12px 16px;
+        border: 1px solid #e9ecef;
+        border-radius: 6px;
+        background: #fafbfc;
+    }
+
+    .hmnet-forms-detail__submission-field-label {
+        font-weight: 600;
+        font-size: 13px;
+        color: #1a1a1a;
+        margin-bottom: 4px;
+    }
+
+    .hmnet-forms-detail__submission-field-type {
+        font-weight: 400;
+        color: #6c7a87;
+        font-size: 12px;
+    }
+
+    .hmnet-forms-detail__submission-field-value {
+        font-size: 14px;
+        color: #333;
+        line-height: 1.5;
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
 }

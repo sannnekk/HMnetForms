@@ -80,7 +80,23 @@
             "fieldTypePhone": "Phone",
             "fieldTypeEmail": "Email",
             "fieldTypeAddress": "Address",
-            "fieldTypeCheckbox": "Checkbox"
+            "fieldTypeCheckbox": "Checkbox",
+            "tabForm": "Form",
+            "tabSubmissions": "Submissions",
+            "cardTitleSubmissions": "Form submissions",
+            "columnSubmittedAt": "Submitted at",
+            "columnData": "Data",
+            "viewSubmission": "View",
+            "deleteSubmission": "Delete",
+            "noSubmissions": "No submissions yet",
+            "noSubmissionsMatchSearch": "No submissions match your search",
+            "submissionDetailTitle": "Submission details",
+            "submissionYes": "Yes",
+            "submissionNo": "No",
+            "buttonClose": "Close",
+            "submissionDeletedTitle": "Submission deleted",
+            "submissionDeletedMessage": "The submission has been deleted successfully.",
+            "submissionDeleteErrorTitle": "Error deleting submission"
         }
     },
     "apps": {

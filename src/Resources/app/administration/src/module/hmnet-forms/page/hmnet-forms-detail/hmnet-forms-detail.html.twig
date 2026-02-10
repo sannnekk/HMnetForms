@@ -17,7 +17,7 @@
 				{% endblock %}
 
 				{% block hmnet_forms_detail_actions_save %}
-					<sw-button-process class="hmnet-forms-detail__save-action" :is-loading="isLoading" :process-success="processSuccess" variant="primary" @click="onClickSave" v-tooltip="tooltipSave">
+					<sw-button-process v-if="activeTab === 'form'" class="hmnet-forms-detail__save-action" :is-loading="isLoading" :process-success="processSuccess" variant="primary" @click="onClickSave" v-tooltip="tooltipSave">
 						{{ $tc('hmnet-forms.detail.buttonSave') }}
 					</sw-button-process>
 				{% endblock %}
@@ -32,91 +32,251 @@
 
 		{% block hmnet_forms_detail_content %}
 			<template #content>
-				<sw-card-view v-if="form">
-					{% block hmnet_forms_detail_content_language_info %}
-						<sw-language-info :entity-description="form ? form.name : ''"/>
-					{% endblock %}
+				<div v-if="form" class="hmnet-forms-detail__content">
 
-					{% block hmnet_forms_detail_base_card %}
-						<mt-card :title="$tc('hmnet-forms.detail.cardTitleGeneral')" :is-loading="isLoading">
-							{% block hmnet_forms_detail_base_card_content %}
-								<sw-container columns="repeat(auto-fit, minmax(250px, 1fr))" gap="0 30px">
-									{% block hmnet_forms_detail_base_card_content_name %}
-										<mt-text-field v-model="form.name" :label="$tc('hmnet-forms.detail.labelName')" :placeholder="$tc('hmnet-forms.detail.placeholderName')" required/>
-									{% endblock %}
-
-									{% block hmnet_forms_detail_base_card_content_technical_name %}
-										<mt-text-field v-model="form.technicalName" :label="$tc('hmnet-forms.detail.labelTechnicalName')" :placeholder="$tc('hmnet-forms.detail.placeholderTechnicalName')" required/>
-									{% endblock %}
-								</sw-container>
-
-								{% block hmnet_forms_detail_base_card_content_description %}
-									<mt-textarea v-model="form.description" :label="$tc('hmnet-forms.detail.labelDescription')" :placeholder="$tc('hmnet-forms.detail.placeholderDescription')"/>
-								{% endblock %}
-							{% endblock %}
-						</mt-card>
-					{% endblock %}
-
-					{% block hmnet_forms_detail_settings_card %}
-						<mt-card :title="$tc('hmnet-forms.detail.cardTitleSettings')" :is-loading="isLoading">
-							{% block hmnet_forms_detail_settings_card_content %}
-								<sw-tagged-field v-model:value="form.notificationEmails" :label="$tc('hmnet-forms.detail.labelNotificationEmails')"/>
-							{% endblock %}
-						</mt-card>
-					{% endblock %}
-
-					{% block hmnet_forms_detail_fields_card %}
-						<mt-card :title="$tc('hmnet-forms.detail.cardTitleFields')" :subtitle="$tc('hmnet-forms.detail.cardSubtitleFields')" :is-loading="isLoading">
-
-							<template #headerRight>
-								{% block hmnet_forms_detail_fields_card_actions %}
-									<mt-button variant="primary" size="small" @click="onAddField">
-										{{ $tc('hmnet-forms.detail.buttonAddField') }}
-									</mt-button>
-								{% endblock %}
+					{% block hmnet_forms_detail_tabs %}
+						<sw-tabs
+							v-if="!isCreateMode"
+							class="hmnet-forms-detail__tabs"
+							position-identifier="hmnet-forms-detail"
+							:default-item="activeTab"
+							:small="false"
+						>
+							<template #default="{ active }">
+								<sw-tabs-item
+									name="form"
+									:active-tab="active"
+									@click="onTabChange('form')"
+								>
+									{{ $tc('hmnet-forms.detail.tabForm') }}
+								</sw-tabs-item>
+								<sw-tabs-item
+									name="submissions"
+									:active-tab="active"
+									@click="onTabChange('submissions')"
+								>
+									{{ $tc('hmnet-forms.detail.tabSubmissions') }}
+									<sw-label size="small" appearance="pill" variant="neutral" class="hmnet-forms-detail__tab-badge">
+										{{ submissionTotal }}
+									</sw-label>
+								</sw-tabs-item>
 							</template>
+						</sw-tabs>
+					{% endblock %}
 
-							{% block hmnet_forms_detail_fields_card_content %}
+					{% block hmnet_forms_detail_tab_form %}
+						<sw-card-view v-if="activeTab === 'form'">
+							{% block hmnet_forms_detail_content_language_info %}
+								<sw-language-info :entity-description="form ? form.name : ''"/>
+							{% endblock %}
 
-								<div v-if="!hasFields" class="hmnet-forms-detail__empty-fields">
-									<mt-empty-state class="mt-empty-state--center" :headline="$tc('hmnet-forms.detail.emptyFieldsTitle')" :icon="$route.meta.$module.icon"/>
-								</div>
+							{% block hmnet_forms_detail_base_card %}
+								<mt-card :title="$tc('hmnet-forms.detail.cardTitleGeneral')" :is-loading="isLoading">
+									{% block hmnet_forms_detail_base_card_content %}
+										<sw-container columns="repeat(auto-fit, minmax(250px, 1fr))" gap="0 30px">
+											{% block hmnet_forms_detail_base_card_content_name %}
+												<mt-text-field v-model="form.name" :label="$tc('hmnet-forms.detail.labelName')" :placeholder="$tc('hmnet-forms.detail.placeholderName')" required/>
+											{% endblock %}
 
-								<div v-else class="hmnet-forms-detail__fields">
-									<div v-for="(field, index) in form.fields" :key="field.id" class="hmnet-forms-detail__field-card">
-										<div class="hmnet-forms-detail__field-card-header">
-											<span class="hmnet-forms-detail__field-card-number">{{ index + 1 }}</span>
-											<span class="hmnet-forms-detail__field-card-title">{{ field.title || $tc('hmnet-forms.detail.fieldUntitled') }}</span>
-											<span class="hmnet-forms-detail__field-card-badge" v-if="field.type">{{ field.type }}</span>
-											<mt-button class="hmnet-forms-detail__field-card-remove" variant="critical" size="small" @click="onRemoveField(field.id)">
-												{{ $tc('hmnet-forms.detail.buttonRemoveField') }}
+											{% block hmnet_forms_detail_base_card_content_technical_name %}
+												<mt-text-field v-model="form.technicalName" :label="$tc('hmnet-forms.detail.labelTechnicalName')" :placeholder="$tc('hmnet-forms.detail.placeholderTechnicalName')" required/>
+											{% endblock %}
+										</sw-container>
+
+										{% block hmnet_forms_detail_base_card_content_description %}
+											<mt-textarea v-model="form.description" :label="$tc('hmnet-forms.detail.labelDescription')" :placeholder="$tc('hmnet-forms.detail.placeholderDescription')"/>
+										{% endblock %}
+									{% endblock %}
+								</mt-card>
+							{% endblock %}
+
+							{% block hmnet_forms_detail_settings_card %}
+								<mt-card :title="$tc('hmnet-forms.detail.cardTitleSettings')" :is-loading="isLoading">
+									{% block hmnet_forms_detail_settings_card_content %}
+										<sw-tagged-field v-model:value="form.notificationEmails" :label="$tc('hmnet-forms.detail.labelNotificationEmails')"/>
+									{% endblock %}
+								</mt-card>
+							{% endblock %}
+
+							{% block hmnet_forms_detail_fields_card %}
+								<mt-card :title="$tc('hmnet-forms.detail.cardTitleFields')" :subtitle="$tc('hmnet-forms.detail.cardSubtitleFields')" :is-loading="isLoading">
+
+									<template #headerRight>
+										{% block hmnet_forms_detail_fields_card_actions %}
+											<mt-button variant="primary" size="small" @click="onAddField">
+												{{ $tc('hmnet-forms.detail.buttonAddField') }}
 											</mt-button>
+										{% endblock %}
+									</template>
+
+									{% block hmnet_forms_detail_fields_card_content %}
+
+										<div v-if="!hasFields" class="hmnet-forms-detail__empty-fields">
+											<mt-empty-state class="mt-empty-state--center" :headline="$tc('hmnet-forms.detail.emptyFieldsTitle')" :icon="$route.meta.$module.icon"/>
 										</div>
-										<div class="hmnet-forms-detail__field-card-body">
-											<sw-container columns="1fr 1fr" gap="0 30px">
-												<mt-text-field v-model="field.title" :label="$tc('hmnet-forms.detail.labelFieldTitle')" required/>
-												<mt-select v-model="field.type" :label="$tc('hmnet-forms.detail.labelFieldType')" :options="fieldTypeOptions"/>
-											</sw-container>
-											<sw-container columns="1fr 1fr" gap="0 30px">
-												<mt-textarea v-model="field.description" :label="$tc('hmnet-forms.detail.labelFieldDescription')"/>
-												<mt-textarea v-model="field.warning" :label="$tc('hmnet-forms.detail.labelFieldWarning')"/>
-											</sw-container>
-											<mt-switch v-model="field.isRequired" :label="$tc('hmnet-forms.detail.labelFieldRequired')"/>
+
+										<div v-else class="hmnet-forms-detail__fields">
+											<div v-for="(field, index) in form.fields" :key="field.id" class="hmnet-forms-detail__field-card">
+												<div class="hmnet-forms-detail__field-card-header">
+													<span class="hmnet-forms-detail__field-card-number">{{ index + 1 }}</span>
+													<span class="hmnet-forms-detail__field-card-title">{{ field.title || $tc('hmnet-forms.detail.fieldUntitled') }}</span>
+													<span class="hmnet-forms-detail__field-card-badge" v-if="field.type">{{ field.type }}</span>
+													<mt-button class="hmnet-forms-detail__field-card-remove" variant="critical" size="small" @click="onRemoveField(field.id)">
+														{{ $tc('hmnet-forms.detail.buttonRemoveField') }}
+													</mt-button>
+												</div>
+												<div class="hmnet-forms-detail__field-card-body">
+													<sw-container columns="1fr 1fr" gap="0 30px">
+														<mt-text-field v-model="field.title" :label="$tc('hmnet-forms.detail.labelFieldTitle')" required/>
+														<mt-select v-model="field.type" :label="$tc('hmnet-forms.detail.labelFieldType')" :options="fieldTypeOptions"/>
+													</sw-container>
+													<sw-container columns="1fr 1fr" gap="0 30px">
+														<mt-textarea v-model="field.description" :label="$tc('hmnet-forms.detail.labelFieldDescription')"/>
+														<mt-textarea v-model="field.warning" :label="$tc('hmnet-forms.detail.labelFieldWarning')"/>
+													</sw-container>
+													<mt-switch v-model="field.isRequired" :label="$tc('hmnet-forms.detail.labelFieldRequired')"/>
+												</div>
+											</div>
+										</div>
+									{% endblock %}
+								</mt-card>
+							{% endblock %}
+
+							{% block hmnet_forms_detail_privacy_card %}
+								<mt-card :title="$tc('hmnet-forms.detail.cardTitlePrivacy')" :subtitle="$tc('hmnet-forms.detail.cardSubtitlePrivacy')" :is-loading="isLoading">
+									{% block hmnet_forms_detail_privacy_card_content %}
+										<mt-text-editor v-model="form.privacyAgreement" :label="$tc('hmnet-forms.detail.labelPrivacyAgreement')"/>
+									{% endblock %}
+								</mt-card>
+							{% endblock %}
+						</sw-card-view>
+					{% endblock %}
+
+					{% block hmnet_forms_detail_tab_submissions %}
+						<sw-card-view v-if="activeTab === 'submissions' && !isCreateMode">
+							<mt-card :title="$tc('hmnet-forms.detail.cardTitleSubmissions')" :is-loading="submissionsLoading">
+								<template #headerRight>
+									{% block hmnet_forms_detail_submissions_search %}
+										<sw-simple-search-field
+											v-model="submissionSearchTerm"
+											variant="form"
+											size="small"
+											@search-term-change="onSubmissionSearch"
+										/>
+									{% endblock %}
+								</template>
+
+								{% block hmnet_forms_detail_submissions_content %}
+									<div v-if="!filteredSubmissions.length && !submissionsLoading" class="hmnet-forms-detail__empty-submissions">
+										<mt-empty-state
+											class="mt-empty-state--center"
+											:headline="submissionSearchTerm ? $tc('hmnet-forms.detail.noSubmissionsMatchSearch') : $tc('hmnet-forms.detail.noSubmissions')"
+											:icon="$route.meta.$module.icon"
+										/>
+									</div>
+
+									<div v-else class="hmnet-forms-detail__submissions">
+										<div class="hmnet-forms-detail__submissions-table">
+											<table class="hmnet-forms-detail__table">
+												<thead>
+													<tr>
+														<th class="hmnet-forms-detail__table-th">#</th>
+														<th class="hmnet-forms-detail__table-th">{{ $tc('hmnet-forms.detail.columnSubmittedAt') }}</th>
+														<th class="hmnet-forms-detail__table-th">{{ $tc('hmnet-forms.detail.columnData') }}</th>
+														<th class="hmnet-forms-detail__table-th hmnet-forms-detail__table-th--actions"></th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr
+														v-for="(submission, index) in paginatedSubmissions"
+														:key="submission.id"
+														class="hmnet-forms-detail__table-row"
+													>
+														<td class="hmnet-forms-detail__table-td hmnet-forms-detail__table-td--index">
+															{{ (submissionPage - 1) * submissionLimit + index + 1 }}
+														</td>
+														<td class="hmnet-forms-detail__table-td hmnet-forms-detail__table-td--date">
+															{{ formatDate(submission.createdAt) }}
+														</td>
+														<td class="hmnet-forms-detail__table-td hmnet-forms-detail__table-td--data">
+															<span class="hmnet-forms-detail__data-preview">
+																{{ getSubmissionSummary(submission) }}
+															</span>
+														</td>
+														<td class="hmnet-forms-detail__table-td hmnet-forms-detail__table-td--actions">
+															<mt-button variant="secondary" size="small" @click="onViewSubmission(submission)">
+																{{ $tc('hmnet-forms.detail.viewSubmission') }}
+															</mt-button>
+															<mt-button variant="critical" size="small" @click="onDeleteSubmission(submission.id)">
+																{{ $tc('hmnet-forms.detail.deleteSubmission') }}
+															</mt-button>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+
+										{% block hmnet_forms_detail_submissions_pagination %}
+											<div v-if="filteredSubmissions.length > submissionLimit" class="hmnet-forms-detail__submissions-pagination">
+												<sw-pagination
+													:total="filteredSubmissions.length"
+													:limit="submissionLimit"
+													:page="submissionPage"
+													@page-change="onSubmissionPageChange"
+												/>
+											</div>
+										{% endblock %}
+									</div>
+								{% endblock %}
+							</mt-card>
+
+							{% block hmnet_forms_detail_submission_modal %}
+								<sw-modal
+									v-if="selectedSubmission"
+									:title="$tc('hmnet-forms.detail.submissionDetailTitle')"
+									@modal-close="onCloseSubmissionModal"
+								>
+									<div class="hmnet-forms-detail__submission-detail">
+										<div class="hmnet-forms-detail__submission-meta">
+											<span class="hmnet-forms-detail__submission-meta-label">{{ $tc('hmnet-forms.detail.columnSubmittedAt') }}:</span>
+											<span>{{ formatDate(selectedSubmission.createdAt) }}</span>
+										</div>
+										<div class="hmnet-forms-detail__submission-fields">
+											<div
+												v-for="(entry, idx) in selectedSubmission.data"
+												:key="idx"
+												class="hmnet-forms-detail__submission-field"
+											>
+												<div class="hmnet-forms-detail__submission-field-label">
+													{{ entry.title }}
+													<span class="hmnet-forms-detail__submission-field-type">({{ entry.type }})</span>
+												</div>
+												<div class="hmnet-forms-detail__submission-field-value">
+													<template v-if="entry.type === 'address' && typeof entry.value === 'object'">
+														{{ entry.value.street }}, {{ entry.value.zip }} {{ entry.value.city }}
+													</template>
+													<template v-else-if="entry.type === 'checkbox'">
+														<sw-icon :name="entry.value ? 'regular-checkmark-xs' : 'regular-times-xs'" small/>
+														{{ entry.value ? $tc('hmnet-forms.detail.submissionYes') : $tc('hmnet-forms.detail.submissionNo') }}
+													</template>
+													<template v-else>
+														{{ entry.value || '—' }}
+													</template>
+												</div>
+											</div>
 										</div>
 									</div>
-								</div>
-							{% endblock %}
-						</mt-card>
-					{% endblock %}
 
-					{% block hmnet_forms_detail_privacy_card %}
-						<mt-card :title="$tc('hmnet-forms.detail.cardTitlePrivacy')" :subtitle="$tc('hmnet-forms.detail.cardSubtitlePrivacy')" :is-loading="isLoading">
-							{% block hmnet_forms_detail_privacy_card_content %}
-								<mt-text-editor v-model="form.privacyAgreement" :label="$tc('hmnet-forms.detail.labelPrivacyAgreement')"/>
+									<template #modal-footer>
+										<mt-button variant="primary" @click="onCloseSubmissionModal">
+											{{ $tc('hmnet-forms.detail.buttonClose') }}
+										</mt-button>
+									</template>
+								</sw-modal>
 							{% endblock %}
-						</mt-card>
+						</sw-card-view>
 					{% endblock %}
-				</sw-card-view>
+				</div>
 			</template>
 		{% endblock %}
 	</sw-page>

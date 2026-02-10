@@ -80,7 +80,23 @@
             "fieldTypePhone": "Telefon",
             "fieldTypeEmail": "E-Mail",
             "fieldTypeAddress": "Adresse",
-            "fieldTypeCheckbox": "Checkbox"
+            "fieldTypeCheckbox": "Checkbox",
+            "tabForm": "Formular",
+            "tabSubmissions": "Einsendungen",
+            "cardTitleSubmissions": "Formulareinsendungen",
+            "columnSubmittedAt": "Eingereicht am",
+            "columnData": "Daten",
+            "viewSubmission": "Ansehen",
+            "deleteSubmission": "Löschen",
+            "noSubmissions": "Noch keine Einsendungen vorhanden",
+            "noSubmissionsMatchSearch": "Keine Einsendungen entsprechen Ihrer Suche",
+            "submissionDetailTitle": "Einsendungsdetails",
+            "submissionYes": "Ja",
+            "submissionNo": "Nein",
+            "buttonClose": "Schließen",
+            "submissionDeletedTitle": "Einsendung gelöscht",
+            "submissionDeletedMessage": "Die Einsendung wurde erfolgreich gelöscht.",
+            "submissionDeleteErrorTitle": "Fehler beim Löschen der Einsendung"
         }
     },
     "apps": {

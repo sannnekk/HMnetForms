@@ -23,6 +23,14 @@ Component.register('hmnet-forms-detail', {
 			fieldIdsToDelete: [],
 			isLoading: false,
 			processSuccess: false,
+			activeTab: 'form',
+			submissions: [],
+			submissionSearchTerm: '',
+			submissionsLoading: false,
+			submissionTotal: 0,
+			submissionPage: 1,
+			submissionLimit: 25,
+			selectedSubmission: null,
 		}
 	},
 
@@ -37,6 +45,39 @@ Component.register('hmnet-forms-detail', {
 
 		formFieldRepository() {
 			return this.repositoryFactory.create('hmnet_form_field')
+		},
+
+		formSubmissionRepository() {
+			return this.repositoryFactory.create('hmnet_form_submission')
+		},
+
+		filteredSubmissions() {
+			if (!this.submissionSearchTerm) {
+				return this.submissions
+			}
+
+			const term = this.submissionSearchTerm.toLowerCase()
+
+			return this.submissions.filter((submission) => {
+				if (!Array.isArray(submission.data)) {
+					return false
+				}
+
+				return submission.data.some((entry) => {
+					if (entry.type === 'address' && typeof entry.value === 'object') {
+						const addr = `${entry.value.street} ${entry.value.zip} ${entry.value.city}`
+						return addr.toLowerCase().includes(term)
+					}
+
+					const val = String(entry.value ?? '')
+					return val.toLowerCase().includes(term) || (entry.title && entry.title.toLowerCase().includes(term))
+				})
+			})
+		},
+
+		paginatedSubmissions() {
+			const start = (this.submissionPage - 1) * this.submissionLimit
+			return this.filteredSubmissions.slice(start, start + this.submissionLimit)
 		},
 
 		identifier() {
@@ -176,9 +217,26 @@ Component.register('hmnet-forms-detail', {
 				.then((form) => {
 					this.form = form
 					this.ensureFieldCollection()
+					this.loadSubmissionCount()
 				})
 				.finally(() => {
 					this.isLoading = false
+				})
+		},
+
+		loadSubmissionCount() {
+			if (!this.formId) {
+				return
+			}
+
+			const criteria = new Criteria(1, 1)
+			criteria.addFilter(Criteria.equals('formId', this.formId))
+			criteria.setTotalCountMode(1)
+
+			this.formSubmissionRepository
+				.search(criteria, Shopware.Context.api)
+				.then((result) => {
+					this.submissionTotal = result.total ?? 0
 				})
 		},
 
@@ -286,6 +344,118 @@ Component.register('hmnet-forms-detail', {
 
 		onClickCancel() {
 			this.$router.push({ name: 'hmnet-forms.list' })
+		},
+
+		onTabChange(tabName) {
+			const name = typeof tabName === 'object' ? tabName.name : tabName
+			this.activeTab = name
+
+			if (name === 'submissions' && !this.isCreateMode && !this.submissions.length) {
+				this.loadSubmissions()
+			}
+		},
+
+		loadSubmissions() {
+			if (!this.formId) {
+				return Promise.resolve()
+			}
+
+			this.submissionsLoading = true
+
+			const criteria = new Criteria(1, 500)
+			criteria.addFilter(Criteria.equals('formId', this.formId))
+			criteria.addSorting(Criteria.sort('createdAt', 'DESC'))
+
+			return this.formSubmissionRepository
+				.search(criteria, Shopware.Context.api)
+				.then((result) => {
+					this.submissions = result
+					this.submissionTotal = result.total ?? result.length
+				})
+				.finally(() => {
+					this.submissionsLoading = false
+				})
+		},
+
+		onSubmissionSearch(searchTerm) {
+			this.submissionSearchTerm = searchTerm || ''
+			this.submissionPage = 1
+		},
+
+		onSubmissionPageChange({ page }) {
+			this.submissionPage = page
+		},
+
+		getSubmissionSummary(submission) {
+			if (!Array.isArray(submission.data)) {
+				return '—'
+			}
+
+			return submission.data
+				.slice(0, 3)
+				.map((entry) => {
+					const label = entry.title || ''
+					let value = ''
+
+					if (entry.type === 'address' && typeof entry.value === 'object') {
+						value = [entry.value.street, entry.value.zip, entry.value.city].filter(Boolean).join(', ')
+					} else if (entry.type === 'checkbox') {
+						value = entry.value ? '✓' : '✗'
+					} else {
+						value = String(entry.value ?? '')
+					}
+
+					if (value.length > 40) {
+						value = value.substring(0, 40) + '…'
+					}
+
+					return `${label}: ${value}`
+				})
+				.join(' | ')
+		},
+
+		formatDate(dateString) {
+			if (!dateString) {
+				return '—'
+			}
+
+			const date = new Date(dateString)
+
+			return date.toLocaleString('de-DE', {
+				year: 'numeric',
+				month: '2-digit',
+				day: '2-digit',
+				hour: '2-digit',
+				minute: '2-digit',
+			})
+		},
+
+		onViewSubmission(submission) {
+			this.selectedSubmission = submission
+		},
+
+		onCloseSubmissionModal() {
+			this.selectedSubmission = null
+		},
+
+		onDeleteSubmission(submissionId) {
+			this.submissionsLoading = true
+
+			this.formSubmissionRepository
+				.delete(submissionId, Shopware.Context.api)
+				.then(() => {
+					this.createNotificationSuccess({
+						title: this.$tc('hmnet-forms.detail.submissionDeletedTitle'),
+						message: this.$tc('hmnet-forms.detail.submissionDeletedMessage'),
+					})
+					return this.loadSubmissions()
+				})
+				.catch(() => {
+					this.createNotificationError({
+						title: this.$tc('hmnet-forms.detail.submissionDeleteErrorTitle'),
+					})
+					this.submissionsLoading = false
+				})
 		},
 	},
 })
