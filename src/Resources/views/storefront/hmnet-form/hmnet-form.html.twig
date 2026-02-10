@@ -119,6 +119,17 @@
 					{% endif %}
 				{% endfor %}
 
+				{% if formData.privacyAgreement %}
+					<fieldset class="form-text privacy-notice mt-3">
+						<legend class="form-text privacy-notice-title">
+							<strong>Datenschutz</strong>
+						</legend>
+						<div class="privacy-notice-text">
+							{{ formData.privacyAgreement|raw }}
+						</div>
+					</fieldset>
+				{% endif %}
+
 				<div class="form-text mt-4 mb-2">* Pflichtfelder</div>
 
 				<div class="d-grid d-md-flex justify-content-md-end">
