@@ -1,33 +1,125 @@
-<div class="hmnet-form">
-	<div class="hmnet-form__header">
-		<h3 class="hmnet-form__title">{{ formData.name }}</h3>
-		{% if formData.description %}
-			<p class="hmnet-form__description">{{ formData.description }}</p>
-		{% endif %}
-	</div>
-	<div class="hmnet-form__content">
-		{% for field in formData.fields %}
-			<div class="hmnet-form__field">
-				<label class="hmnet-form__label" for="field-{{ field.id }}">{{ field.title }} {{ field.isRequired ? '*' : '' }}</label>
-				{% if field.type == 'text' %}
-					<input type="text" id="field-{{ field.id }}" name="field-{{ field.id }}" class="hmnet-form__input" {{ field.isRequired ? 'required' : '' }} />
-				{% elseif field.type == 'textarea' %}
-					<textarea id="field-{{ field.id }}" name="field-{{ field.id }}" class="hmnet-form__textarea" {{ field.isRequired ? 'required' : '' }}></textarea>
-				{% elseif field.type == 'phone' %}
-					<input type="tel" id="field-{{ field.id }}" name="field-{{ field.id }}" class="hmnet-form__input" {{ field.isRequired ? 'required' : '' }} />
-				{% elseif field.type == 'email' %}
-					<input type="email" id="field-{{ field.id }}" name="field-{{ field.id }}" class="hmnet-form__input" {{ field.isRequired ? 'required' : '' }} />
-				{% elseif field.type == 'address' %}
-					<input type="text" id="field-{{ field.id }}-street" name="field-{{ field.id }}-street" placeholder="Straße" class="hmnet-form__input" {{ field.isRequired ? 'required' : '' }} />
-					<input type="text" id="field-{{ field.id }}-city" name="field-{{ field.id }}-city" placeholder="Stadt" class="hmnet-form__input" {{ field.isRequired ? 'required' : '' }} />
-					<input type="text" id="field-{{ field.id }}-zip" name="field-{{ field.id }}-zip" placeholder="PLZ" class="hmnet-form__input" {{ field.isRequired ? 'required' : '' }} />
-				{% elseif field.type == 'checkbox' %}
-					<input type="checkbox" id="field-{{ field.id }}" name="field-{{ field.id }}" class="hmnet-form__checkbox" {{ field.isRequired ? 'required' : '' }} />
+<div class="hmnet-form cms-element-form">
+	<div class="card">
+		<div class="card-body">
+			<div class="card-title mb-4">
+				<h3>{{ formData.name }}</h3>
+				{% if formData.description %}
+					<p class="form-text">{{ formData.description }}</p>
 				{% endif %}
 			</div>
-		{% endfor %}
-	</div>
-	<div class="hmnet-form__footer">
-		<button type="submit" class="hmnet-form__submit-button">Absenden</button>
+
+			<div class="form-content">
+				{% for field in formData.fields %}
+					{% if field.type == 'address' %}
+						<div class="row g-2">
+							<div class="form-group col-12">
+								<label class="form-label" for="field-{{ field.id }}-street">
+									{{ field.title }}
+									{% if field.isRequired %}
+										<span class="form-required-label" aria-hidden="true">*</span>
+									{% endif %}
+								</label>
+							</div>
+							<div class="form-group col-12">
+								<input type="text"
+									   id="field-{{ field.id }}-street"
+									   name="field-{{ field.id }}-street"
+									   placeholder="Straße"
+									   class="form-control"
+									   {% if field.isRequired %}required aria-required="true"{% endif %} />
+								<div class="form-field-feedback"></div>
+							</div>
+							<div class="form-group col-md-4">
+								<input type="text"
+									   id="field-{{ field.id }}-zip"
+									   name="field-{{ field.id }}-zip"
+									   placeholder="PLZ"
+									   class="form-control"
+									   {% if field.isRequired %}required aria-required="true"{% endif %} />
+								<div class="form-field-feedback"></div>
+							</div>
+							<div class="form-group col-md-8">
+								<input type="text"
+									   id="field-{{ field.id }}-city"
+									   name="field-{{ field.id }}-city"
+									   placeholder="Stadt"
+									   class="form-control"
+									   {% if field.isRequired %}required aria-required="true"{% endif %} />
+								<div class="form-field-feedback"></div>
+							</div>
+						</div>
+
+					{% elseif field.type == 'checkbox' %}
+						<div class="row g-2">
+							<div class="form-group form-check col-12">
+								<input type="checkbox"
+									   id="field-{{ field.id }}"
+									   name="field-{{ field.id }}"
+									   class="form-check-input"
+									   {% if field.isRequired %}required aria-required="true"{% endif %} />
+								<label class="form-check-label" for="field-{{ field.id }}">
+									{{ field.title }}
+									{% if field.isRequired %}
+										<span class="form-required-label" aria-hidden="true">*</span>
+									{% endif %}
+								</label>
+								<div class="form-field-feedback"></div>
+							</div>
+						</div>
+
+					{% else %}
+						<div class="row g-2">
+							<div class="form-group col-12">
+								<label class="form-label" for="field-{{ field.id }}">
+									{{ field.title }}
+									{% if field.isRequired %}
+										<span class="form-required-label" aria-hidden="true">*</span>
+									{% endif %}
+								</label>
+
+								{% if field.type == 'text' %}
+									<input type="text"
+										   id="field-{{ field.id }}"
+										   name="field-{{ field.id }}"
+										   class="form-control"
+										   {% if field.isRequired %}required aria-required="true"{% endif %} />
+
+								{% elseif field.type == 'textarea' %}
+									<textarea id="field-{{ field.id }}"
+											  name="field-{{ field.id }}"
+											  class="form-control"
+											  rows="5"
+											  {% if field.isRequired %}required aria-required="true"{% endif %}></textarea>
+
+								{% elseif field.type == 'phone' %}
+									<input type="tel"
+										   id="field-{{ field.id }}"
+										   name="field-{{ field.id }}"
+										   class="form-control"
+										   {% if field.isRequired %}required aria-required="true"{% endif %} />
+
+								{% elseif field.type == 'email' %}
+									<input type="email"
+										   id="field-{{ field.id }}"
+										   name="field-{{ field.id }}"
+										   class="form-control"
+										   {% if field.isRequired %}required aria-required="true"{% endif %} />
+								{% endif %}
+
+								<div class="form-field-feedback"></div>
+							</div>
+						</div>
+					{% endif %}
+				{% endfor %}
+
+				<div class="form-text mt-4 mb-2">* Pflichtfelder</div>
+
+				<div class="d-grid d-md-flex justify-content-md-end">
+					<button type="submit" class="btn btn-primary">
+						Absenden
+					</button>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>

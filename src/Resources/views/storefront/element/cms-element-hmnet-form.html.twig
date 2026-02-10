@@ -4,10 +4,8 @@
 
 		{% include '@HMnetForms/storefront/hmnet-form/hmnet-form.html.twig' with { formData: formData } %}
 	{% else %}
-		Formular nicht gefunden
+		<div class="alert alert-warning">
+			Formular nicht gefunden
+		</div>
 	{% endif %}
-
-	<pre>
-		{{ dump(element) }}
-	</pre>
 {% endblock %}
