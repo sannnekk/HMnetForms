@@ -38,6 +38,12 @@
 					{% block hmnet_forms_list_grid %}
 						<sw-entity-listing v-if="forms?.length" :items="forms" :columns="columns" :repository="formRepository" :show-selection="false" :detail-route="'hmnet.forms.detail'" :is-loading="isLoading" @page-change="onPageChange">
 
+							<template #column-submissionCount="{ item }">
+								<sw-label variant="neutral" appearance="pill" size="small">
+									{{ item.submissionCount || 0 }}
+								</sw-label>
+							</template>
+
 							<template #column-createdat="{ item }">
 								<sw-time-ago :date="item.createdAt"/>
 							</template>

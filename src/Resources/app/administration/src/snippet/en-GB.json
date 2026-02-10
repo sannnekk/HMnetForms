@@ -39,6 +39,7 @@
             "columnTechnicalName": "Technical name",
             "columnCreatedAt": "Created at",
             "columnUpdatedAt": "Updated at",
+            "columnSubmissions": "Submissions",
             "emptyStateTitle": "No forms yet",
             "emptyStateDescription": "Create your first form now.",
             "emptyStateButton": "Create form"

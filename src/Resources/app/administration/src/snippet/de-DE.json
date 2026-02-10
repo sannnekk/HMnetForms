@@ -39,6 +39,7 @@
             "columnTechnicalName": "Technischer Name",
             "columnCreatedAt": "Erstellt am",
             "columnUpdatedAt": "Aktualisiert am",
+            "columnSubmissions": "Einsendungen",
             "emptyStateTitle": "Noch keine Formulare vorhanden",
             "emptyStateDescription": "Erstellen Sie jetzt Ihr erstes Formular.",
             "emptyStateButton": "Formular erstellen"

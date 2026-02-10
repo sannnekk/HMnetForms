@@ -1,5 +1,12 @@
 {% set isModal = isModal|default(false) %}
-<div class="hmnet-form cms-element-form">
+<form class="hmnet-form cms-element-form"
+	  action="{{ path('frontend.hmnet-forms.submit') }}"
+	  method="post"
+	  data-form-handler="true"
+	  data-form-cms-handler="true">
+
+	<input type="hidden" name="formId" value="{{ formData.id }}">
+
 	{% if not isModal %}
 	<div class="card">
 		<div class="card-body">
@@ -142,4 +149,8 @@
 		</div>
 	</div>
 	{% endif %}
-</div>
+
+	<div class="form-hidden-fields d-none">
+		<input type="submit" class="submit--hidden">
+	</div>
+</form>

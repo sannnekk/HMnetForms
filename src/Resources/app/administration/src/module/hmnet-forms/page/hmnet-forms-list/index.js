@@ -83,10 +83,15 @@ Component.register('hmnet-forms-list', {
 			this.isLoading = true
 			const criteria = new Criteria(this.page, this.limit)
 			criteria.addSorting(Criteria.sort(this.sortBy, this.sortDirection, false))
+			criteria.addAssociation('submissions')
 
 			return this.formRepository
 				.search(criteria, Shopware.Context.api)
 				.then((result) => {
+					result.forEach(form => {
+						form.submissionCount = form.submissions?.length || 0
+					})
+
 					this.forms = result
 					this.total = result.total
 				})

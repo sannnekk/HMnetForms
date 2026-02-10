@@ -14,8 +14,21 @@
             <tag name="shopware.entity"/>
         </service>
 
+        <service id="HMnet\Forms\Core\Content\FormSubmission\FormSubmissionEntity">
+            <tag name="shopware.entity"/>
+        </service>
+
         <service id="HMnet\Forms\Content\Cms\HMnetFormCmsElementResolver">
             <tag name="shopware.cms.data_resolver" />
+        </service>
+
+        <service id="HMnet\Forms\Controller\HMnetFormController" public="true">
+            <argument type="service" id="hmnet_form.repository"/>
+            <argument type="service" id="hmnet_form_submission.repository"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+            <tag name="controller.service_arguments"/>
         </service>
 
     </services>

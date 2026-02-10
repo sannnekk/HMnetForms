@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace HMnet\Forms\Core\Content\Form;
 
 use HMnet\Forms\Core\Content\FormField\FormFieldEntity;
+use HMnet\Forms\Core\Content\FormSubmission\FormSubmissionEntity;
 use Shopware\Core\Framework\DataAbstractionLayer\Attribute\Entity as EntityAttribute;
 use Shopware\Core\Framework\DataAbstractionLayer\Attribute\Field;
 use Shopware\Core\Framework\DataAbstractionLayer\Attribute\FieldType;
@@ -57,4 +58,15 @@ class FormEntity extends Entity
 	 */
 	#[Translations]
 	public ?array $translations = null;
+
+	/**
+	 * @var array<string, FormSubmissionEntity>|null
+	 */
+	#[OneToMany(
+		entity: FormSubmissionEntity::ENTITY_NAME,
+		ref: 'form_id',
+		onDelete: OnDelete::CASCADE,
+		api: true
+	)]
+	public ?array $submissions = null;
 }
