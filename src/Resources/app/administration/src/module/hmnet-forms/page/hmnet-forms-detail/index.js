@@ -31,6 +31,7 @@ Component.register('hmnet-forms-detail', {
 			submissionPage: 1,
 			submissionLimit: 25,
 			selectedSubmission: null,
+			submissionToDelete: null,
 		}
 	},
 
@@ -41,6 +42,12 @@ Component.register('hmnet-forms-detail', {
 
 		languageRepository() {
 			return this.repositoryFactory.create('language')
+		},
+
+		mailTemplateCriteria() {
+			const criteria = new Criteria(1, 25)
+			criteria.addAssociation('mailTemplateType')
+			return criteria
 		},
 
 		formFieldRepository() {
@@ -253,6 +260,7 @@ Component.register('hmnet-forms-detail', {
 			form.description = ''
 			form.privacyAgreement = ''
 			form.notificationEmails = []
+			form.mailTemplateId = null
 			form.fields = this.createEmptyFieldCollection()
 			return form
 		},
@@ -445,6 +453,16 @@ Component.register('hmnet-forms-detail', {
 		},
 
 		onDeleteSubmission(submissionId) {
+			this.submissionToDelete = submissionId
+		},
+
+		onCloseDeleteModal() {
+			this.submissionToDelete = null
+		},
+
+		onConfirmDeleteSubmission() {
+			const submissionId = this.submissionToDelete
+			this.submissionToDelete = null
 			this.submissionsLoading = true
 
 			this.formSubmissionRepository

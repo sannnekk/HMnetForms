@@ -6,9 +6,12 @@ namespace HMnet\Forms\Core\Content\Form;
 
 use HMnet\Forms\Core\Content\FormField\FormFieldEntity;
 use HMnet\Forms\Core\Content\FormSubmission\FormSubmissionEntity;
+use Shopware\Core\Content\MailTemplate\MailTemplateEntity;
 use Shopware\Core\Framework\DataAbstractionLayer\Attribute\Entity as EntityAttribute;
 use Shopware\Core\Framework\DataAbstractionLayer\Attribute\Field;
 use Shopware\Core\Framework\DataAbstractionLayer\Attribute\FieldType;
+use Shopware\Core\Framework\DataAbstractionLayer\Attribute\ForeignKey;
+use Shopware\Core\Framework\DataAbstractionLayer\Attribute\ManyToOne;
 use Shopware\Core\Framework\DataAbstractionLayer\Attribute\OnDelete;
 use Shopware\Core\Framework\DataAbstractionLayer\Attribute\OneToMany;
 use Shopware\Core\Framework\DataAbstractionLayer\Attribute\PrimaryKey;
@@ -41,6 +44,12 @@ class FormEntity extends Entity
 
 	#[Field(type: FieldType::JSON, api: true)]
 	public array $notificationEmails = [];
+
+	#[ForeignKey(entity: 'mail_template', api: true)]
+	public ?string $mailTemplateId = null;
+
+	#[ManyToOne(entity: 'mail_template', onDelete: OnDelete::SET_NULL, api: true)]
+	public ?MailTemplateEntity $mailTemplate = null;
 
 	/**
 	 * @var array<string, FormFieldEntity>|null

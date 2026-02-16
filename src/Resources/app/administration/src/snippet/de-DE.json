@@ -63,6 +63,8 @@
             "labelDescription": "Beschreibung",
             "placeholderDescription": "Geben Sie eine Beschreibung ein...",
             "labelNotificationEmails": "Benachrichtigungs-E-Mails",
+            "labelMailTemplate": "E-Mail-Vorlage",
+            "placeholderMailTemplate": "E-Mail-Vorlage auswählen...",
             "labelPrivacyAgreement": "Datenschutzvereinbarung",
             "buttonAddField": "Feld hinzufügen",
             "buttonRemoveField": "Feld entfernen",
@@ -97,7 +99,9 @@
             "buttonClose": "Schließen",
             "submissionDeletedTitle": "Einsendung gelöscht",
             "submissionDeletedMessage": "Die Einsendung wurde erfolgreich gelöscht.",
-            "submissionDeleteErrorTitle": "Fehler beim Löschen der Einsendung"
+            "submissionDeleteErrorTitle": "Fehler beim Löschen der Einsendung",
+            "deleteConfirmTitle": "Einsendung löschen",
+            "deleteConfirmMessage": "Sind Sie sicher, dass Sie diese Einsendung löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden."
         }
     },
     "apps": {

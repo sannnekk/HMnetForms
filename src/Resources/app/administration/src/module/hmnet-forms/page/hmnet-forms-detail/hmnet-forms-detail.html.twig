@@ -90,9 +90,20 @@
 								<mt-card :title="$tc('hmnet-forms.detail.cardTitleSettings')" :is-loading="isLoading">
 									{% block hmnet_forms_detail_settings_card_content %}
 										<sw-tagged-field v-model:value="form.notificationEmails" :label="$tc('hmnet-forms.detail.labelNotificationEmails')"/>
+
+									{% block hmnet_forms_detail_settings_card_content_mail_template %}
+										<sw-entity-single-select
+											v-model:value="form.mailTemplateId"
+											entity="mail_template"
+											:label="$tc('hmnet-forms.detail.labelMailTemplate')"
+											:placeholder="$tc('hmnet-forms.detail.placeholderMailTemplate')"
+											:criteria="mailTemplateCriteria"
+											label-property="description"
+										/>
 									{% endblock %}
-								</mt-card>
-							{% endblock %}
+								{% endblock %}
+							</mt-card>
+						{% endblock %}
 
 							{% block hmnet_forms_detail_fields_card %}
 								<mt-card :title="$tc('hmnet-forms.detail.cardTitleFields')" :subtitle="$tc('hmnet-forms.detail.cardSubtitleFields')" :is-loading="isLoading">
@@ -266,6 +277,26 @@
 									<template #modal-footer>
 										<mt-button variant="primary" @click="onCloseSubmissionModal">
 											{{ $tc('hmnet-forms.detail.buttonClose') }}
+										</mt-button>
+									</template>
+								</sw-modal>
+							{% endblock %}
+
+							{% block hmnet_forms_detail_delete_modal %}
+								<sw-modal
+									v-if="submissionToDelete"
+									:title="$tc('hmnet-forms.detail.deleteConfirmTitle')"
+									variant="small"
+									@modal-close="onCloseDeleteModal"
+								>
+									<p>{{ $tc('hmnet-forms.detail.deleteConfirmMessage') }}</p>
+
+									<template #modal-footer>
+										<mt-button variant="secondary" @click="onCloseDeleteModal">
+											{{ $tc('hmnet-forms.detail.buttonCancel') }}
+										</mt-button>
+										<mt-button variant="critical" @click="onConfirmDeleteSubmission">
+											{{ $tc('hmnet-forms.detail.deleteSubmission') }}
 										</mt-button>
 									</template>
 								</sw-modal>
