@@ -6,6 +6,7 @@ namespace HMnet\Forms\Controller;
 
 use HMnet\Forms\Core\Content\Form\FormEntity;
 use HMnet\Forms\Core\Content\FormSubmission\FormSubmissionEntity;
+use HMnet\Forms\Service\FormNotificationMailService;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\Uuid\Uuid;
@@ -25,6 +26,7 @@ class HMnetFormController extends StorefrontController
 	public function __construct(
 		private readonly EntityRepository $hmnetFormRepository,
 		private readonly EntityRepository $hmnetFormSubmissionRepository,
+		private readonly FormNotificationMailService $formNotificationMailService,
 	) {
 	}
 
@@ -118,6 +120,14 @@ class HMnetFormController extends StorefrontController
 				'data' => $submissionData,
 			],
 		], $context->getContext());
+
+		// Send notification emails
+		$this->formNotificationMailService->sendNotificationMail(
+			$form,
+			$submissionData,
+			$context->getSalesChannelId(),
+			$context->getContext(),
+		);
 
 		return new JsonResponse([
 			['type' => 'success', 'alert' => 'Vielen Dank! Ihre Anfrage wurde erfolgreich gesendet.']
