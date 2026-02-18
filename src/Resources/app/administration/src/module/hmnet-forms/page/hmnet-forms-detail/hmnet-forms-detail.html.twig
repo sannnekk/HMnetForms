@@ -91,8 +91,13 @@
 									{% block hmnet_forms_detail_settings_card_content %}
 										<sw-tagged-field v-model:value="form.notificationEmails" :label="$tc('hmnet-forms.detail.labelNotificationEmails')"/>
 
-									{% block hmnet_forms_detail_settings_card_content_mail_template %}
-										<sw-entity-single-select
+								{% block hmnet_forms_detail_settings_card_content_send_client_email %}
+									<mt-switch v-model="sendClientEmail" :label="$tc('hmnet-forms.detail.labelSendClientEmail')"/>
+								{% endblock %}
+
+								{% block hmnet_forms_detail_settings_card_content_mail_template %}
+									<sw-entity-single-select
+										v-if="sendClientEmail"
 											v-model:value="form.mailTemplateId"
 											entity="mail_template"
 											:label="$tc('hmnet-forms.detail.labelMailTemplate')"
@@ -100,7 +105,11 @@
 											:criteria="mailTemplateCriteria"
 											label-property="description"
 										/>
-									{% endblock %}
+
+										<mt-banner v-if="sendClientEmail" :title="$tc('hmnet-forms.detail.mailTemplateTipTitle')" variant="info">
+											{{ $tc('hmnet-forms.detail.mailTemplateTipDescription') }}
+										</mt-banner>
+								{% endblock %}
 								{% endblock %}
 							</mt-card>
 						{% endblock %}

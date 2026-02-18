@@ -20,6 +20,7 @@ Component.register('hmnet-forms-detail', {
 	data() {
 		return {
 			form: null,
+			sendClientEmail: false,
 			fieldIdsToDelete: [],
 			isLoading: false,
 			processSuccess: false,
@@ -175,6 +176,12 @@ Component.register('hmnet-forms-detail', {
 				this.loadSubmissions()
 			}
 		},
+
+		sendClientEmail(val) {
+			if (!val && this.form) {
+				this.form.mailTemplateId = null
+			}
+		},
 	},
 
 	created() {
@@ -229,6 +236,7 @@ Component.register('hmnet-forms-detail', {
 				.get(this.formId, Shopware.Context.api, criteria)
 				.then((form) => {
 					this.form = form
+					this.sendClientEmail = !!form.mailTemplateId
 					this.ensureFieldCollection()
 					this.loadSubmissionCount()
 				})
@@ -262,6 +270,7 @@ Component.register('hmnet-forms-detail', {
 			form.notificationEmails = []
 			form.mailTemplateId = null
 			form.fields = this.createEmptyFieldCollection()
+			this.sendClientEmail = false
 			return form
 		},
 
