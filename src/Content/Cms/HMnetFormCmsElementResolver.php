@@ -8,6 +8,7 @@ use HMnet\Forms\Core\Content\Form\FormEntity;
 use Shopware\Core\Content\Cms\DataResolver\CriteriaCollection;
 use Shopware\Core\Content\Cms\DataResolver\Element\CmsElementResolverInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Sorting\FieldSorting;
 use Shopware\Core\Content\Cms\Aggregate\CmsSlot\CmsSlotEntity;
 use Shopware\Core\Content\Cms\DataResolver\ResolverContext\ResolverContext;
 use Shopware\Core\Content\Cms\DataResolver\Element\ElementDataCollection;
@@ -29,7 +30,8 @@ class HMnetFormCmsElementResolver implements CmsElementResolverInterface
 		}
 
 		$criteria = new Criteria([$formId]);
-		$criteria->addAssociation('fields'); // HMnetFormField
+		$criteria->addAssociation('fields');
+		$criteria->getAssociation('fields')->addSorting(new FieldSorting('position', FieldSorting::ASCENDING));
 
 		$collection = new CriteriaCollection();
 		$collection->add(

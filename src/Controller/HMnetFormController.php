@@ -49,6 +49,9 @@ class HMnetFormController extends StorefrontController
 		// Load the form with its fields
 		$criteria = new Criteria([$formId]);
 		$criteria->addAssociation('fields');
+		$criteria->getAssociation('fields')->addSorting(
+			new \Shopware\Core\Framework\DataAbstractionLayer\Search\Sorting\FieldSorting('position', 'ASC')
+		);
 
 		$form = $this->hmnetFormRepository->search($criteria, $context->getContext())->first();
 

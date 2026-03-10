@@ -33,6 +33,7 @@ Component.register('hmnet-forms-detail', {
 			submissionLimit: 25,
 			selectedSubmission: null,
 			submissionToDelete: null,
+			dragFieldId: null,
 		}
 	},
 
@@ -106,6 +107,14 @@ Component.register('hmnet-forms-detail', {
 
 		hasFields() {
 			return !!this.form?.fields?.length
+		},
+
+		sortedFields() {
+			if (!this.form?.fields) {
+				return []
+			}
+
+			return [...this.form.fields].sort((a, b) => (a.position ?? 0) - (b.position ?? 0))
 		},
 
 		currentLanguageId() {
@@ -247,6 +256,7 @@ Component.register('hmnet-forms-detail', {
 			this.isLoading = true
 			const criteria = new Criteria()
 			criteria.addAssociation('fields')
+			criteria.getAssociation('fields').addSorting(Criteria.sort('position', 'ASC'))
 
 			this.formRepository
 				.get(this.formId, Shopware.Context.api, criteria)
@@ -309,6 +319,7 @@ Component.register('hmnet-forms-detail', {
 			const field = this.formFieldRepository.create(Shopware.Context.api)
 			field.type = 'text'
 			field.isRequired = false
+			field.position = this.form.fields ? this.form.fields.length : 0
 			field.formId = this.form.id ?? null
 			this.form.fields.add(field)
 		},
@@ -505,6 +516,42 @@ Component.register('hmnet-forms-detail', {
 					})
 					this.submissionsLoading = false
 				})
+		},
+
+		onFieldDragStart(fieldId) {
+			this.dragFieldId = fieldId
+		},
+
+		onFieldDragOver(event, targetFieldId) {
+			event.preventDefault()
+			if (this.dragFieldId === targetFieldId) {
+				return
+			}
+
+			const sorted = this.sortedFields
+			const fromIndex = sorted.findIndex((f) => f.id === this.dragFieldId)
+			const toIndex = sorted.findIndex((f) => f.id === targetFieldId)
+
+			if (fromIndex === -1 || toIndex === -1) {
+				return
+			}
+
+			// Reorder by updating positions
+			const reordered = [...sorted]
+			const [moved] = reordered.splice(fromIndex, 1)
+			reordered.splice(toIndex, 0, moved)
+
+			reordered.forEach((field, idx) => {
+				field.position = idx
+			})
+		},
+
+		onFieldDrop() {
+			this.dragFieldId = null
+		},
+
+		onFieldDragEnd() {
+			this.dragFieldId = null
 		},
 	},
 })

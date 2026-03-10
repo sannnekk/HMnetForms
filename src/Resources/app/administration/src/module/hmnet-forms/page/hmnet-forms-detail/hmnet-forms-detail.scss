@@ -20,10 +20,21 @@
         border-radius: 8px;
         background: #fafbfc;
         overflow: hidden;
-        transition: border-color 0.15s ease;
+        transition: border-color 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease;
+        cursor: grab;
 
         &:hover {
             border-color: #189eff;
+        }
+
+        &.is--dragging {
+            opacity: 0.4;
+            border-color: #189eff;
+            box-shadow: 0 2px 8px rgba(24, 158, 255, 0.15);
+        }
+
+        &:active {
+            cursor: grabbing;
         }
     }
 
@@ -34,6 +45,27 @@
         padding: 12px 20px;
         background: #f0f2f5;
         border-bottom: 1px solid #d1d9e0;
+    }
+
+    .hmnet-forms-detail__field-card-drag-handle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: grab;
+        color: #8e99a4;
+        flex-shrink: 0;
+        padding: 2px;
+        border-radius: 4px;
+        transition: color 0.15s ease, background 0.15s ease;
+
+        &:hover {
+            color: #189eff;
+            background: #e3f2fd;
+        }
+
+        &:active {
+            cursor: grabbing;
+        }
     }
 
     .hmnet-forms-detail__field-card-number {

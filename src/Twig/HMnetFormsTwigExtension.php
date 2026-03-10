@@ -5,6 +5,7 @@ namespace HMnet\Forms\Twig;
 use HMnet\Forms\Core\Content\Form\FormEntity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Sorting\FieldSorting;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -48,6 +49,7 @@ class HMnetFormsTwigExtension extends AbstractExtension
         // Load the form with its fields
         $criteria = new Criteria([$formId]);
         $criteria->addAssociation('fields');
+        $criteria->getAssociation('fields')->addSorting(new FieldSorting('position', FieldSorting::ASCENDING));
 
         $form = $this->hmnetFormRepository->search($criteria, $salesChannelContext->getContext())->first();
 

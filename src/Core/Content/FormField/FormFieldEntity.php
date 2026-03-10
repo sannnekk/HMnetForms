@@ -40,6 +40,9 @@ class FormFieldEntity extends Entity
 	#[ManyToOne(entity: FormEntity::ENTITY_NAME, ref: 'id', column: 'form_id', api: true)]
 	public ?FormEntity $form = null;
 
+	#[Field(type: FieldType::INT, api: true)]
+	public int $position = 0;
+
 	#[Field(type: FieldType::STRING, api: true)]
 	public string $type;
 
