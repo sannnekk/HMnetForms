@@ -299,6 +299,10 @@
 														<sw-icon :name="entry.value ? 'regular-checkmark-xs' : 'regular-times-xs'" small/>
 														{{ entry.value ? $tc('hmnet-forms.detail.submissionYes') : $tc('hmnet-forms.detail.submissionNo') }}
 													</template>
+													<template v-else-if="entry.type === 'current_page_link'">
+														<a v-if="entry.value" :href="entry.value" target="_blank" rel="noopener noreferrer">{{ entry.value }}</a>
+														<template v-else>—</template>
+													</template>
 													<template v-else>
 														{{ entry.value || '—' }}
 													</template>

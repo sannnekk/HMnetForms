@@ -6,6 +6,16 @@
 
 	<input type="hidden" name="formId" value="{{ formData.id }}">
 
+	{% for field in formData.fields %}
+		{% if field.type == 'current_page_link' %}
+			<input type="hidden"
+				   id="field-{{ field.id }}"
+				   name="field-{{ field.id }}"
+				   class="hmnet-form-current-page-link"
+				   value="" />
+		{% endif %}
+	{% endfor %}
+
 	{% if not isModal %}
 	<div class="card">
 		<div class="card-body">
@@ -23,7 +33,10 @@
 
 			<div class="form-content">
 				{% for field in formData.fields %}
-					{% if field.type == 'address' %}
+					{% if field.type == 'current_page_link' %}
+						{# Hidden field rendered above the form content #}
+
+					{% elseif field.type == 'address' %}
 						<div class="row g-2">
 							<div class="form-group col-12">
 								<label class="form-label" for="field-{{ field.id }}-street">

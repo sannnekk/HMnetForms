@@ -8,6 +8,7 @@ export default class HMnetFormPlugin extends Plugin {
 
     init() {
         this._registerEvents();
+        this._fillCurrentPageLink();
     }
 
     _registerEvents() {
@@ -111,6 +112,13 @@ export default class HMnetFormPlugin extends Plugin {
             }
         }
         return container;
+    }
+
+    _fillCurrentPageLink() {
+        const fields = this.el.querySelectorAll('.hmnet-form-current-page-link');
+        fields.forEach(field => {
+            field.value = window.location.href;
+        });
     }
 
     _autoDismissMessages() {

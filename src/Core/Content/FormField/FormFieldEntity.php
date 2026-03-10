@@ -28,6 +28,7 @@ class FormFieldEntity extends Entity
 	public const TYPE_EMAIL = 'email';
 	public const TYPE_ADDRESS = 'address';
 	public const TYPE_CHECKBOX = 'checkbox';
+	public const TYPE_CURRENT_PAGE_LINK = 'current_page_link';
 
 	#[PrimaryKey]
 	#[Field(type: FieldType::UUID, api: true)]

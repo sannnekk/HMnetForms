@@ -132,6 +132,12 @@ class FormNotificationMailService
             return $value ? 'Ja' : 'Nein';
         }
 
+        if ($type === 'current_page_link' && $value !== '') {
+            $escaped = htmlspecialchars((string) $value, \ENT_QUOTES | \ENT_SUBSTITUTE, 'UTF-8');
+
+            return sprintf('<a href="%s">%s</a>', $escaped, $escaped);
+        }
+
         return htmlspecialchars((string) $value, \ENT_QUOTES | \ENT_SUBSTITUTE, 'UTF-8');
     }
 

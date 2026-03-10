@@ -77,6 +77,10 @@ Component.register('hmnet-forms-detail', {
 						return addr.toLowerCase().includes(term)
 					}
 
+					if (entry.type === 'current_page_link') {
+						return String(entry.value ?? '').toLowerCase().includes(term)
+					}
+
 					const val = String(entry.value ?? '')
 					return val.toLowerCase().includes(term) || (entry.title && entry.title.toLowerCase().includes(term))
 				})
@@ -137,6 +141,10 @@ Component.register('hmnet-forms-detail', {
 				{
 					value: 'checkbox',
 					label: this.$tc('hmnet-forms.detail.fieldTypeCheckbox'),
+				},
+				{
+					value: 'current_page_link',
+					label: this.$tc('hmnet-forms.detail.fieldTypeCurrentPageLink'),
 				},
 			]
 		},

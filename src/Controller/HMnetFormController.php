@@ -87,6 +87,12 @@ class HMnetFormController extends StorefrontController
 				if ($field->isRequired && !$value) {
 					$errors[] = sprintf('Das Feld "%s" ist ein Pflichtfeld.', $fieldTitle);
 				}
+			} elseif ($fieldType === 'current_page_link') {
+				$value = trim((string) $request->request->get("field-{$fieldId}", ''));
+
+				if ($value !== '' && !filter_var($value, \FILTER_VALIDATE_URL)) {
+					$value = '';
+				}
 			} else {
 				$value = trim((string) $request->request->get("field-{$fieldId}", ''));
 

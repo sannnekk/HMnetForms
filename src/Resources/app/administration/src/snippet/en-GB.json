@@ -94,6 +94,7 @@
             "fieldTypeEmail": "Email",
             "fieldTypeAddress": "Address",
             "fieldTypeCheckbox": "Checkbox",
+            "fieldTypeCurrentPageLink": "Current page link",
             "tabForm": "Form",
             "tabSubmissions": "Submissions",
             "cardTitleSubmissions": "Form submissions",
