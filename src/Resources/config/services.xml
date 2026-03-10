@@ -37,5 +37,11 @@
             <tag name="controller.service_arguments"/>
         </service>
 
+        <service id="HMnet\Forms\Twig\HMnetFormsTwigExtension" public="true">
+            <argument type="service" id="hmnet_form.repository"/>
+            <argument type="service" id="twig"/>
+            <tag name="twig.extension"/>
+        </service>
+
     </services>
 </container>

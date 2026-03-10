@@ -150,6 +150,14 @@ Component.register('hmnet-forms-detail', {
 			}
 		},
 
+		twigEmbedCode() {
+			return `{{ hmnet_form('${this.form?.id || ''}') }}`
+		},
+
+		twigButtonCode() {
+			return `{{ hmnet_form('${this.form?.id || ''}', 'button') }}`
+		},
+
 		tooltipCancel() {
 			return {
 				message: 'ESC',

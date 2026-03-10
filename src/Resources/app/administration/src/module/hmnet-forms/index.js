@@ -37,7 +37,7 @@ Shopware.Module.register('hmnet-forms', {
 			color: '#ff3d58',
 			path: 'hmnet.forms.list',
 			icon: 'window-terminal',
-			parent: 'sw-catalogue',
+			parent: 'sw-content',
 			position: 100,
 		},
 	],
