@@ -44,11 +44,11 @@
 								</sw-label>
 							</template>
 
-							<template #column-createdat="{ item }">
+							<template #column-createdAt="{ item }">
 								<sw-time-ago :date="item.createdAt"/>
 							</template>
 
-							<template #column-updatedat="{ item }">
+							<template #column-updatedAt="{ item }">
 								<sw-time-ago v-if="item.updatedAt" :date="item.updatedAt"/>
 							</template>
 						</sw-entity-listing>
